@@ -1,0 +1,83 @@
+#!/bin/bash
+
+PIDFILE=/var/run/artifactory.pid
+
+initialize() {
+    arguments=( "$@" )
+
+    CID=$(cat "$PIDFILE")
+    if [ "$CID" == "" ];
+    then
+        exit 1
+    fi
+}
+
+changeRootPassword() {
+    arguments=( "$@" )
+
+    CID=$(cat "$PIDFILE")
+    if [ "$CID" == "" ];
+    then
+        exit 1
+    fi
+}
+
+changeUserPassword() {
+    CID=$(cat "$PIDFILE")
+    if [ "$CID" == "" ];
+    then
+        exit 1
+    fi
+}
+
+backup() {
+    arguments=( "$@" )
+
+    CID=$(cat "$PIDFILE")
+    if [ "$CID" == "" ];
+    then
+        exit 1
+    fi
+}
+
+restore() {
+    arguments=( "$@" )
+
+    CID=$(cat "$PIDFILE")
+    if [ "$CID" == "" ];
+    then
+        exit 1
+    fi
+}
+
+bash() {
+    CID=$(cat "$PIDFILE")
+    if [ "$CID" == "" ];
+    then
+        exit 1
+    fi
+}
+
+case $1 in
+    initialize)
+        initialize $@
+        ;;
+    changeRootPassword)
+        changeRootPassword $@
+        ;;
+    changeUserPassword)
+        changeUserPassword
+        ;;
+    backup)
+        backup $@
+        ;;
+    restore)
+        restore $@
+        ;;
+    bash)
+        bash
+        ;;
+    *)
+        echo "Usage: $0 (initialize | changeRootPassword | changeUserPassword | backup | restore | bash)"
+        ;;
+esac
