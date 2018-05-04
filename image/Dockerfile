@@ -19,7 +19,7 @@ ENV         DOWNLOAD_URL https://bintray.com/jfrog/artifactory-pro/download_file
 COPY        . /tmp
 
 # Install packages
-RUN         sudo add-apt-repository "deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main" && \
+RUN         add-apt-repository "deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main" && \
             apt-get update && \
             apt-get install --assume-yes \
                 apache2 \
