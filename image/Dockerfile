@@ -32,3 +32,12 @@ RUN         sudo add-apt-repository "deb http://ppa.launchpad.net/webupd8team/ja
 # Create user and group
 RUN         groupadd -g $hostgid artifactory && \
             useradd -u $hostuid -g $hostgid -M artifactory
+
+# Create folders for artifactory
+RUN         mkdir /artifactory && \
+            mkdir /artifactory/db && \
+            mkdir /artifactory/data && \
+            mkdir /artifactory/scripts && \
+            mkdir /artifactory/logs && \
+            mkdir /artifactory/backups && \
+            chown -R artifactory:artifactory /artifactory
