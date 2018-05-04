@@ -19,12 +19,15 @@ ENV         DOWNLOAD_URL https://bintray.com/jfrog/artifactory-pro/download_file
 COPY        . /tmp
 
 # Install packages
-RUN         add-apt-repository "deb http://ppa.launchpad.net/webupd8team/java/ubuntu xenial main" && \
+RUN         echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" >> /etc/apt/sources.list.d/java.list && \
+            echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" >> /etc/apt/sources.list.d/java.list && \
+            echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 select true" | /usr/bin/debconf-set-selections && \
+            apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886 && \
             apt-get update && \
             apt-get install --assume-yes \
                 apache2 \
                 oracle-java8-installer \
-                software-properties-common \
+                oracle-java8-set-default \
                 vim \
                 wget && \
             apt-get clean
