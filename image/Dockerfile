@@ -26,6 +26,7 @@ RUN         echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty ma
             apt-get update && \
             apt-get install --assume-yes \
                 apache2 \
+                mysql-server \
                 oracle-java8-installer \
                 oracle-java8-set-default \
                 vim \
@@ -44,3 +45,30 @@ RUN         mkdir /artifactory && \
             mkdir /artifactory/logs && \
             mkdir /artifactory/backups && \
             chown -R artifactory:artifactory /artifactory
+
+# Configure MySQL
+RUN         sed -i 's|user.*|user            = artifactory|' /etc/mysql/my.cnf && \
+            sed -i 's|datadir.*|datadir         = /artifactory/db|' /etc/mysql/my.cnf && \
+            sed -i 's|max_allowed_packet.*|max_allowed_packet      = 100M|' /etc/mysql/my.cnf && \
+            sed -i 's|log_error.*|log_error                = /var/log/mysql/dberror.log|' /etc/mysql/my.cnf && \
+            sed -i '\|\[mysqld_safe\]|a log_error       = /var/log/mysql/dberror.log' /etc/mysql/my.cnf && \
+            sed -i 's|syslog.*|# syslog|' /etc/mysql/conf.d/mysqld_safe_syslog.cnf && \
+            rm -rf /var/lib/mysql && \
+            rm -rf /var/log/mysql && \
+            ln -s /artifactory/logs /var/log/mysql && \
+            chown -R artifactory:artifactory /var/log/mysql && \
+            chown -R artifactory:artifactory /var/run/mysqld
+
+# Configure helper scripts
+RUN         mv /tmp/initialize /artifactory/scripts && \
+            chmod a+x /artifactory/scripts/initialize && \
+            mv /tmp/startup /artifactory/scripts && \
+            chmod a+x /artifactory/scripts/startup && \
+            mv /tmp/shutdown /artifactory/scripts && \
+            chmod a+x /artifactory/scripts/shutdown
+
+USER        artifactory
+
+EXPOSE      $guestport
+
+ENTRYPOINT  ["/artifactory/scripts/startup"]
