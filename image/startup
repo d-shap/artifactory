@@ -1,0 +1,9 @@
+#!/bin/bash
+if [ ! -d /artifactory/db/mysql ];
+then
+    mysql_install_db
+fi
+
+trap /artifactory/scripts/shutdown SIGHUP SIGINT SIGTERM TERM
+
+mysqld & wait
