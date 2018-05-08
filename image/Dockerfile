@@ -62,6 +62,14 @@ RUN         sed -i 's|user.*|user            = artifactory|' /etc/mysql/my.cnf &
 # Configure helper scripts
 RUN         mv /tmp/initialize /artifactory/scripts && \
             chmod a+x /artifactory/scripts/initialize && \
+            mv /tmp/changeRootPassword /artifactory/scripts && \
+            chmod a+x /artifactory/scripts/changeRootPassword && \
+            mv /tmp/changeUserPassword /artifactory/scripts && \
+            chmod a+x /artifactory/scripts/changeUserPassword && \
+            mv /tmp/backup /artifactory/scripts && \
+            chmod a+x /artifactory/scripts/backup && \
+            mv /tmp/restore /artifactory/scripts && \
+            chmod a+x /artifactory/scripts/restore && \
             mv /tmp/startup /artifactory/scripts && \
             chmod a+x /artifactory/scripts/startup && \
             mv /tmp/shutdown /artifactory/scripts && \
