@@ -7,8 +7,11 @@ ARG         guestport=8006
 ARG         guestappname=artifactory
 
 ENV         DEBIAN_FRONTEND noninteractive
-ENV         APACHE_RUN_USER artifactory
-ENV         APACHE_RUN_GROUP artifactory
+ENV         RUN_USER artifactory
+ENV         RUN_GROUP artifactory
+ENV         APACHE_RUN_USER $RUN_USER
+ENV         APACHE_RUN_GROUP $RUN_GROUP
+ENV         GUEST_PORT $guestport
 ENV         GUEST_APP_NAME $guestappname
 ENV         DB_NAME artdb
 ENV         DB_USER_NAME artifactory
@@ -29,13 +32,15 @@ RUN         echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty ma
                 mysql-server \
                 oracle-java8-installer \
                 oracle-java8-set-default \
+                tomcat8 \
+                unzip \
                 vim \
                 wget && \
             apt-get clean
 
 # Create user and group
-RUN         groupadd -g $hostgid artifactory && \
-            useradd -u $hostuid -g $hostgid -M artifactory
+RUN         groupadd -g $hostgid $RUN_GROUP && \
+            useradd -u $hostuid -g $hostgid -M $RUN_USER
 
 # Create folders for artifactory
 RUN         mkdir /artifactory && \
@@ -44,10 +49,10 @@ RUN         mkdir /artifactory && \
             mkdir /artifactory/scripts && \
             mkdir /artifactory/logs && \
             mkdir /artifactory/backups && \
-            chown -R artifactory:artifactory /artifactory
+            chown -R $RUN_USER:$RUN_GROUP /artifactory
 
 # Configure MySQL
-RUN         sed -i 's|user.*|user            = artifactory|' /etc/mysql/my.cnf && \
+RUN         sed -i 's|user.*|user            = '"$RUN_USER"'|' /etc/mysql/my.cnf && \
             sed -i 's|datadir.*|datadir         = /artifactory/db|' /etc/mysql/my.cnf && \
             sed -i 's|max_allowed_packet.*|max_allowed_packet      = 100M|' /etc/mysql/my.cnf && \
             sed -i 's|log_error.*|log_error                = /var/log/mysql/dberror.log|' /etc/mysql/my.cnf && \
@@ -56,8 +61,8 @@ RUN         sed -i 's|user.*|user            = artifactory|' /etc/mysql/my.cnf &
             rm -rf /var/lib/mysql && \
             rm -rf /var/log/mysql && \
             ln -s /artifactory/logs /var/log/mysql && \
-            chown -R artifactory:artifactory /var/log/mysql && \
-            chown -R artifactory:artifactory /var/run/mysqld
+            chown -R $RUN_USER:$RUN_GROUP /var/log/mysql && \
+            chown -R $RUN_USER:$RUN_GROUP /var/run/mysqld
 
 # Configure helper scripts
 RUN         mv /tmp/initialize /artifactory/scripts && \
@@ -75,8 +80,8 @@ RUN         mv /tmp/initialize /artifactory/scripts && \
             mv /tmp/shutdown /artifactory/scripts && \
             chmod a+x /artifactory/scripts/shutdown
 
-USER        artifactory
+USER        $RUN_USER
 
-EXPOSE      $guestport
+EXPOSE      $GUEST_PORT
 
 ENTRYPOINT  ["/artifactory/scripts/startup"]
