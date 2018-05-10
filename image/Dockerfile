@@ -9,13 +9,13 @@ ARG         guestappname=artifactory
 ENV         DEBIAN_FRONTEND noninteractive
 ENV         RUN_USER artifactory
 ENV         RUN_GROUP artifactory
-ENV         JAVA_HOME /usr/lib/jvm/java-8-oracle
 ENV         APACHE_RUN_USER $RUN_USER
 ENV         APACHE_RUN_GROUP $RUN_GROUP
 ENV         GUEST_PORT $guestport
 ENV         GUEST_APP_NAME $guestappname
 ENV         DB_NAME artdb
 ENV         DB_USER_NAME artifactory
+ENV         JAVA_HOME /usr/lib/jvm/java-8-oracle
 ENV         DOWNLOAD_VERSION 5.11.0
 ENV         DOWNLOAD_NAME jfrog-artifactory-pro-$DOWNLOAD_VERSION
 ENV         DOWNLOAD_URL https://bintray.com/jfrog/artifactory-pro/download_file?file_path=org%2Fartifactory%2Fpro%2Fjfrog-artifactory-pro%2F$DOWNLOAD_VERSION%2F$DOWNLOAD_NAME.zip
