@@ -55,10 +55,14 @@ RUN         mkdir /artifactory && \
 # Configure MySQL
 RUN         sed -i 's|user.*|user            = '"$RUN_USER"'|' /etc/mysql/my.cnf && \
             sed -i 's|datadir.*|datadir         = /artifactory/db|' /etc/mysql/my.cnf && \
+            sed -i 's|key_buffer.*|key_buffer_size         = 16M|' /etc/mysql/my.cnf && \
             sed -i 's|max_allowed_packet.*|max_allowed_packet      = 100M|' /etc/mysql/my.cnf && \
+            sed -i 's|myisam-recover.*|myisam-recover-options  = BACKUP|' /etc/mysql/my.cnf && \
             sed -i 's|log_error.*|log_error                = /var/log/mysql/dberror.log|' /etc/mysql/my.cnf && \
             sed -i '\|\[mysqld_safe\]|a log_error       = /var/log/mysql/dberror.log' /etc/mysql/my.cnf && \
+            sed -i '\|# Read the manual for more InnoDB related options..*|r /tmp/mysql.conf' /etc/mysql/my.cnf && \
             sed -i 's|syslog.*|# syslog|' /etc/mysql/conf.d/mysqld_safe_syslog.cnf && \
+            rm /tmp/mysql.conf && \
             rm -rf /var/lib/mysql && \
             rm -rf /var/log/mysql && \
             ln -s /artifactory/logs /var/log/mysql && \
