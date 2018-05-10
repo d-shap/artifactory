@@ -86,6 +86,7 @@ RUN         chown -R $RUN_USER:$RUN_GROUP /etc/tomcat8 && \
             chown -R $RUN_USER:$RUN_GROUP /usr/share/tomcat8/shared && \
             ln -s /artifactory/logs /usr/share/tomcat8/logs && \
             chown -h $RUN_USER:$RUN_GROUP /usr/share/tomcat8/logs && \
+            chown -h $RUN_USER:$RUN_GROUP /var/lib/conf && \
             chown -R $RUN_USER:$RUN_GROUP /var/lib/tomcat8/lib && \
             rm -rf /var/lib/tomcat8/logs && \
             ln -s /artifactory/logs /var/lib/tomcat8/logs && \
@@ -93,6 +94,7 @@ RUN         chown -R $RUN_USER:$RUN_GROUP /etc/tomcat8 && \
             ln -s /tmp /var/lib/tomcat8/temp && \
             chown -h $RUN_USER:$RUN_GROUP /var/lib/tomcat8/temp && \
             chown -R $RUN_USER:$RUN_GROUP /var/lib/tomcat8/webapps && \
+            chown -h $RUN_USER:$RUN_GROUP /var/lib/tomcat8/work && \
             chown -R $RUN_USER:$RUN_GROUP /var/cache/tomcat8
 
 # Configure helper scripts
