@@ -18,9 +18,9 @@ ENV         DB_USER_NAME artifactory
 ENV         JAVA_HOME /usr/lib/jvm/java-8-oracle
 ENV         CATALINA_HOME /usr/share/tomcat8
 ENV         CATALINA_BASE /var/lib/tomcat8
-ENV         DOWNLOAD_VERSION 5.11.0
-ENV         DOWNLOAD_NAME jfrog-artifactory-pro-$DOWNLOAD_VERSION
-ENV         DOWNLOAD_URL https://bintray.com/jfrog/artifactory-pro/download_file?file_path=org%2Fartifactory%2Fpro%2Fjfrog-artifactory-pro%2F$DOWNLOAD_VERSION%2F$DOWNLOAD_NAME.zip
+ENV         ARTIFACTORY_DOWNLOAD_VERSION 5.11.0
+ENV         ARTIFACTORY_DOWNLOAD_NAME jfrog-artifactory-pro-$ARTIFACTORY_DOWNLOAD_VERSION
+ENV         ARTIFACTORY_DOWNLOAD_URL https://bintray.com/jfrog/artifactory-pro/download_file?file_path=org%2Fartifactory%2Fpro%2Fjfrog-artifactory-pro%2F$ARTIFACTORY_DOWNLOAD_VERSION%2F$ARTIFACTORY_DOWNLOAD_NAME.zip
 
 COPY        . /tmp
 
