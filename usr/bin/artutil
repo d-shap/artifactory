@@ -56,6 +56,12 @@ bash() {
     then
         exit 1
     fi
+
+    docker exec -it "$CID" sh -c "cd /artifactory && /bin/bash"
+    if [ $? -ne 0 ];
+    then
+        exit 2
+    fi
 }
 
 case $1 in
