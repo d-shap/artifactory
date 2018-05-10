@@ -68,12 +68,13 @@ RUN         sed -i 's|user.*|user            = '"$RUN_USER"'|' /etc/mysql/my.cnf
             rm -rf /var/lib/mysql && \
             rm -rf /var/log/mysql && \
             ln -s /artifactory/logs /var/log/mysql && \
-            chown -R $RUN_USER:$RUN_GROUP /var/log/mysql && \
+            chown $RUN_USER:$RUN_GROUP /var/log/mysql && \
             chown -R $RUN_USER:$RUN_GROUP /var/run/mysqld
 
 # Configure Tomcat
-RUN         chmod -R a+r /etc/tomcat8/* && \
+RUN         chown -R $RUN_USER:$RUN_GROUP /etc/tomcat8 && \
             ln -s /etc/tomcat8 /usr/share/tomcat8/conf && \
+            chown $RUN_USER:$RUN_GROUP /usr/share/tomcat8/conf && \
             mkdir /usr/share/tomcat8/common && \
             mkdir /usr/share/tomcat8/common/classes && \
             chown -R $RUN_USER:$RUN_GROUP /usr/share/tomcat8/common && \
@@ -84,10 +85,15 @@ RUN         chmod -R a+r /etc/tomcat8/* && \
             mkdir /usr/share/tomcat8/shared/classes && \
             chown -R $RUN_USER:$RUN_GROUP /usr/share/tomcat8/shared && \
             ln -s /artifactory/logs /usr/share/tomcat8/logs && \
-            chown -R $RUN_USER:$RUN_GROUP /usr/share/tomcat8/logs && \
+            chown $RUN_USER:$RUN_GROUP /usr/share/tomcat8/logs && \
+            chown -R $RUN_USER:$RUN_GROUP /var/lib/tomcat8/lib && \
             rm -rf /var/lib/tomcat8/logs && \
             ln -s /artifactory/logs /var/lib/tomcat8/logs && \
-            chown -R $RUN_USER:$RUN_GROUP /var/lib/tomcat8/logs
+            chown $RUN_USER:$RUN_GROUP /var/lib/tomcat8/logs && \
+            ln -s /tmp /var/lib/tomcat8/temp && \
+            chown $RUN_USER:$RUN_GROUP /var/lib/tomcat8/temp && \
+            chown -R $RUN_USER:$RUN_GROUP /var/lib/tomcat8/webapps && \
+            chown -R $RUN_USER:$RUN_GROUP /var/cache/tomcat8
 
 # Configure helper scripts
 RUN         mv /tmp/initialize /artifactory/scripts && \
