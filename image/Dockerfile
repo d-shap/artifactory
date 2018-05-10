@@ -9,6 +9,7 @@ ARG         guestappname=artifactory
 ENV         DEBIAN_FRONTEND noninteractive
 ENV         RUN_USER artifactory
 ENV         RUN_GROUP artifactory
+ENV         JAVA_HOME /usr/lib/jvm/java-8-oracle
 ENV         APACHE_RUN_USER $RUN_USER
 ENV         APACHE_RUN_GROUP $RUN_GROUP
 ENV         GUEST_PORT $guestport
