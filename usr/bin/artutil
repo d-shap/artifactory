@@ -10,6 +10,12 @@ initialize() {
     then
         exit 1
     fi
+
+    docker exec -it "$CID" /artifactory/scripts/initialize "${arguments[1]}"
+    if [ $? -ne 0 ];
+    then
+        exit 2
+    fi
 }
 
 changeRootPassword() {
@@ -20,6 +26,12 @@ changeRootPassword() {
     then
         exit 1
     fi
+
+    docker exec -it "$CID" /artifactory/scripts/changeRootPassword "${arguments[1]}"
+    if [ $? -ne 0 ];
+    then
+        exit 2
+    fi
 }
 
 changeUserPassword() {
@@ -27,6 +39,12 @@ changeUserPassword() {
     if [ "$CID" == "" ];
     then
         exit 1
+    fi
+
+    docker exec -it "$CID" /artifactory/scripts/changeUserPassword
+    if [ $? -ne 0 ];
+    then
+        exit 2
     fi
 }
 
@@ -38,6 +56,12 @@ backup() {
     then
         exit 1
     fi
+
+    docker exec "$CID" /artifactory/scripts/backup "${arguments[1]}"
+    if [ $? -ne 0 ];
+    then
+        exit 2
+    fi
 }
 
 restore() {
@@ -47,6 +71,12 @@ restore() {
     if [ "$CID" == "" ];
     then
         exit 1
+    fi
+
+    docker exec "$CID" /artifactory/scripts/restore "${arguments[1]}"
+    if [ $? -ne 0 ];
+    then
+        exit 2
     fi
 }
 
