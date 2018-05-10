@@ -86,7 +86,7 @@ RUN         chown -R $RUN_USER:$RUN_GROUP /etc/tomcat8 && \
             chown -R $RUN_USER:$RUN_GROUP /usr/share/tomcat8/shared && \
             ln -s /artifactory/logs /usr/share/tomcat8/logs && \
             chown -h $RUN_USER:$RUN_GROUP /usr/share/tomcat8/logs && \
-            chown -h $RUN_USER:$RUN_GROUP /var/lib/conf && \
+            chown -h $RUN_USER:$RUN_GROUP /var/lib/tomcat8/conf && \
             chown -R $RUN_USER:$RUN_GROUP /var/lib/tomcat8/lib && \
             rm -rf /var/lib/tomcat8/logs && \
             ln -s /artifactory/logs /var/lib/tomcat8/logs && \
