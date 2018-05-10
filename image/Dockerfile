@@ -16,6 +16,8 @@ ENV         GUEST_APP_NAME $guestappname
 ENV         DB_NAME artdb
 ENV         DB_USER_NAME artifactory
 ENV         JAVA_HOME /usr/lib/jvm/java-8-oracle
+ENV         CATALINA_HOME /usr/share/tomcat8
+ENV         CATALINA_BASE /var/lib/tomcat8
 ENV         DOWNLOAD_VERSION 5.11.0
 ENV         DOWNLOAD_NAME jfrog-artifactory-pro-$DOWNLOAD_VERSION
 ENV         DOWNLOAD_URL https://bintray.com/jfrog/artifactory-pro/download_file?file_path=org%2Fartifactory%2Fpro%2Fjfrog-artifactory-pro%2F$DOWNLOAD_VERSION%2F$DOWNLOAD_NAME.zip
@@ -68,6 +70,24 @@ RUN         sed -i 's|user.*|user            = '"$RUN_USER"'|' /etc/mysql/my.cnf
             ln -s /artifactory/logs /var/log/mysql && \
             chown -R $RUN_USER:$RUN_GROUP /var/log/mysql && \
             chown -R $RUN_USER:$RUN_GROUP /var/run/mysqld
+
+# Configure Tomcat
+RUN         chmod -R a+r /etc/tomcat8/* && \
+            ln -s /etc/tomcat8 /usr/share/tomcat8/conf && \
+            mkdir /usr/share/tomcat8/common && \
+            mkdir /usr/share/tomcat8/common/classes && \
+            chown -R $RUN_USER:$RUN_GROUP /usr/share/tomcat8/common && \
+            mkdir /usr/share/tomcat8/server && \
+            mkdir /usr/share/tomcat8/server/classes && \
+            chown -R $RUN_USER:$RUN_GROUP /usr/share/tomcat8/server && \
+            mkdir /usr/share/tomcat8/shared && \
+            mkdir /usr/share/tomcat8/shared/classes && \
+            chown -R $RUN_USER:$RUN_GROUP /usr/share/tomcat8/shared && \
+            ln -s /artifactory/logs /usr/share/tomcat8/logs && \
+            chown -R $RUN_USER:$RUN_GROUP /usr/share/tomcat8/logs && \
+            rm -rf /var/lib/tomcat8/logs && \
+            ln -s /artifactory/logs /var/lib/tomcat8/logs && \
+            chown -R $RUN_USER:$RUN_GROUP /var/lib/tomcat8/logs
 
 # Configure helper scripts
 RUN         mv /tmp/initialize /artifactory/scripts && \
