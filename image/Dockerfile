@@ -21,6 +21,7 @@ ENV         APACHE_RUN_GROUP $RUN_GROUP
 ENV         ARTIFACTORY_HOME /etc/artifactory
 ENV         ARTIFACTORY_DOWNLOAD_VERSION 5.11.0
 ENV         ARTIFACTORY_DOWNLOAD_NAME jfrog-artifactory-pro-$ARTIFACTORY_DOWNLOAD_VERSION
+ENV         ARTIFACTORY_ARCHIVED_FOLDER_NAME artifactory-pro-$ARTIFACTORY_DOWNLOAD_VERSION
 ENV         ARTIFACTORY_DOWNLOAD_URL https://bintray.com/jfrog/artifactory-pro/download_file?file_path=org%2Fartifactory%2Fpro%2Fjfrog-artifactory-pro%2F$ARTIFACTORY_DOWNLOAD_VERSION%2F$ARTIFACTORY_DOWNLOAD_NAME.zip
 
 COPY        . /tmp
@@ -128,11 +129,11 @@ RUN         cd /tmp && \
             wget -q -O $ARTIFACTORY_DOWNLOAD_NAME.zip ${ARTIFACTORY_DOWNLOAD_URL} && \
             unzip $ARTIFACTORY_DOWNLOAD_NAME.zip -d /tmp && \
             rm $ARTIFACTORY_DOWNLOAD_NAME.zip && \
-            unzip /tmp/$ARTIFACTORY_DOWNLOAD_NAME/webapps/artifactory.war -d /var/lib/tomcat8/webapps && \
+            unzip $ARTIFACTORY_ARCHIVED_FOLDER_NAME/webapps/artifactory.war -d /var/lib/tomcat8/webapps && \
             chown -R $RUN_USER:$RUN_GROUP /var/lib/tomcat8/webapps && \
             mkdir /etc/artifactory && \
-            mv /tmp/$ARTIFACTORY_DOWNLOAD_NAME/etc /etc/artifactory && \
-            mv /tmp/$ARTIFACTORY_DOWNLOAD_NAME/misc /etc/artifactory && \
+            mv $ARTIFACTORY_ARCHIVED_FOLDER_NAME/etc /etc/artifactory && \
+            mv $ARTIFACTORY_ARCHIVED_FOLDER_NAME/misc /etc/artifactory && \
             chown -R $RUN_USER:$RUN_GROUP /etc/artifactory && \
             cp /etc/artifactory/misc/db/mysql.properties /etc/artifactory/etc/db.properties
 
