@@ -114,7 +114,8 @@ RUN         sed -i 's|:80>|:'"$GUEST_PORT"'>|' /etc/apache2/sites-available/000-
 
 # Configure artifactory
 RUN         cd /tmp && \
-            wget ${ARTIFACTORY_DOWNLOAD_URL}
+            wget ${ARTIFACTORY_DOWNLOAD_URL} && \
+            unzip $ARTIFACTORY_DOWNLOAD_NAME.zip -d /tmp
 
 # Configure helper scripts
 RUN         mv /tmp/initialize /artifactory/scripts && \
