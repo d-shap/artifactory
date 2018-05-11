@@ -6,4 +6,4 @@ fi
 
 trap /artifactory/scripts/shutdown SIGHUP SIGINT SIGTERM TERM
 
-mysqld & /usr/share/tomcat8/bin/startup.sh & wait
+mysqld & /usr/share/tomcat8/bin/startup.sh & apache2ctl -D FOREGROUND & wait
