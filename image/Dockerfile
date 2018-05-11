@@ -20,9 +20,9 @@ ENV         APACHE_RUN_USER $RUN_USER
 ENV         APACHE_RUN_GROUP $RUN_GROUP
 ENV         ARTIFACTORY_HOME /etc/artifactory
 ENV         ARTIFACTORY_DOWNLOAD_VERSION 5.11.0
-ENV         ARTIFACTORY_DOWNLOAD_NAME jfrog-artifactory-pro-$ARTIFACTORY_DOWNLOAD_VERSION
-ENV         ARTIFACTORY_ARCHIVED_FOLDER_NAME artifactory-pro-$ARTIFACTORY_DOWNLOAD_VERSION
-ENV         ARTIFACTORY_DOWNLOAD_URL https://bintray.com/jfrog/artifactory-pro/download_file?file_path=org%2Fartifactory%2Fpro%2Fjfrog-artifactory-pro%2F$ARTIFACTORY_DOWNLOAD_VERSION%2F$ARTIFACTORY_DOWNLOAD_NAME.zip
+ENV         ARTIFACTORY_DOWNLOAD_NAME jfrog-artifactory-oss-$ARTIFACTORY_DOWNLOAD_VERSION
+ENV         ARTIFACTORY_ARCHIVED_FOLDER_NAME artifactory-oss-$ARTIFACTORY_DOWNLOAD_VERSION
+ENV         ARTIFACTORY_DOWNLOAD_URL https://bintray.com/jfrog/artifactory/download_file?file_path=$ARTIFACTORY_DOWNLOAD_NAME.zip
 
 COPY        . /tmp
 
