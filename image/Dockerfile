@@ -132,11 +132,11 @@ RUN         cd /tmp && \
             mkdir /var/lib/tomcat8/webapps/${GUEST_APP_NAME} && \
             unzip $ARTIFACTORY_ARCHIVED_FOLDER_NAME/webapps/artifactory.war -d /var/lib/tomcat8/webapps/${GUEST_APP_NAME} && \
             chown -R $RUN_USER:$RUN_GROUP /var/lib/tomcat8/webapps/${GUEST_APP_NAME} && \
-            mkdir /etc/artifactory && \
-            mv $ARTIFACTORY_ARCHIVED_FOLDER_NAME/etc /etc/artifactory && \
-            mv $ARTIFACTORY_ARCHIVED_FOLDER_NAME/misc /etc/artifactory && \
-            chown -R $RUN_USER:$RUN_GROUP /etc/artifactory && \
-            cp /etc/artifactory/misc/db/mysql.properties /etc/artifactory/etc/db.properties
+            mkdir ${ARTIFACTORY_HOME} && \
+            mv $ARTIFACTORY_ARCHIVED_FOLDER_NAME/etc ${ARTIFACTORY_HOME} && \
+            mv $ARTIFACTORY_ARCHIVED_FOLDER_NAME/misc ${ARTIFACTORY_HOME} && \
+            chown -R $RUN_USER:$RUN_GROUP ${ARTIFACTORY_HOME} && \
+            cp ${ARTIFACTORY_HOME}/misc/db/mysql.properties ${ARTIFACTORY_HOME}/etc/db.properties
 
 # Configure helper scripts
 RUN         mv /tmp/initialize /artifactory/scripts && \
