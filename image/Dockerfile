@@ -126,12 +126,12 @@ RUN         sed -i 's|:80>|:'"$GUEST_PORT"'>|' /etc/apache2/sites-available/000-
 
 # Configure artifactory
 RUN         cd /tmp && \
-            wget -q -O $ARTIFACTORY_DOWNLOAD_NAME.zip ${ARTIFACTORY_DOWNLOAD_URL} && \
-            unzip $ARTIFACTORY_DOWNLOAD_NAME.zip -d /tmp && \
-            rm $ARTIFACTORY_DOWNLOAD_NAME.zip && \
-            mkdir /var/lib/tomcat8/webapps/artifactory && \
-            unzip $ARTIFACTORY_ARCHIVED_FOLDER_NAME/webapps/artifactory.war -d /var/lib/tomcat8/webapps/artifactory && \
-            chown -R $RUN_USER:$RUN_GROUP /var/lib/tomcat8/webapps/artifactory && \
+            wget -q -O ${ARTIFACTORY_DOWNLOAD_NAME}.zip ${ARTIFACTORY_DOWNLOAD_URL} && \
+            unzip ${ARTIFACTORY_DOWNLOAD_NAME}.zip -d /tmp && \
+            rm ${ARTIFACTORY_DOWNLOAD_NAME}.zip && \
+            mkdir /var/lib/tomcat8/webapps/${GUEST_APP_NAME} && \
+            unzip $ARTIFACTORY_ARCHIVED_FOLDER_NAME/webapps/artifactory.war -d /var/lib/tomcat8/webapps/${GUEST_APP_NAME} && \
+            chown -R $RUN_USER:$RUN_GROUP /var/lib/tomcat8/webapps/${GUEST_APP_NAME} && \
             mkdir /etc/artifactory && \
             mv $ARTIFACTORY_ARCHIVED_FOLDER_NAME/etc /etc/artifactory && \
             mv $ARTIFACTORY_ARCHIVED_FOLDER_NAME/misc /etc/artifactory && \
