@@ -111,6 +111,7 @@ RUN         mkdir -p /etc/tomcat8 && \
 RUN         sed -i 's|:80>|:'"$GUEST_PORT"'>|' /etc/apache2/sites-available/000-default.conf && \
             sed -i 's|#ServerName www.example.com|ServerName localhost|' /etc/apache2/sites-available/000-default.conf && \
             mv /tmp/artifactory.conf /etc/apache2/sites-available && \
+            sed -i 's|/guestappname|/'"$GUEST_APP_NAME"'|' /etc/apache2/sites-available/artifactory.conf && \
             sed -i 's|Listen 80|Listen '"$GUEST_PORT"'|' /etc/apache2/ports.conf && \
             echo "ServerName localhost" > /etc/apache2/conf-available/servername.conf && \
             a2enconf servername && \
