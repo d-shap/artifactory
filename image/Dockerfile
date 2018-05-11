@@ -136,7 +136,8 @@ RUN         cd /tmp && \
             mkdir $ARTIFACTORY_HOME && \
             mv $ARTIFACTORY_ARCHIVED_FOLDER_NAME/etc $ARTIFACTORY_HOME && \
             mv $ARTIFACTORY_ARCHIVED_FOLDER_NAME/misc $ARTIFACTORY_HOME && \
-            chown -R $RUN_USER:$RUN_GROUP $ARTIFACTORY_HOME && \
+            ln -s /artifactory/data $ARTIFACTORY_HOME/data && \
+            chown -R -h $RUN_USER:$RUN_GROUP $ARTIFACTORY_HOME && \
             cp $ARTIFACTORY_HOME/misc/db/mysql.properties $ARTIFACTORY_HOME/etc/db.properties
 
 # Configure helper scripts
