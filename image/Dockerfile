@@ -97,6 +97,25 @@ RUN         chown -R $RUN_USER:$RUN_GROUP /etc/tomcat8 && \
             chown -h $RUN_USER:$RUN_GROUP /var/lib/tomcat8/work && \
             chown -R $RUN_USER:$RUN_GROUP /var/cache/tomcat8
 
+# Configure apache
+RUN         sed -i 's|:80>|:'"$GUEST_PORT"'>|' /etc/apache2/sites-available/000-default.conf && \
+            sed -i 's|#ServerName www.example.com|ServerName localhost|' /etc/apache2/sites-available/000-default.conf && \
+            mv /tmp/artifactory.conf /etc/apache2/sites-available && \
+            sed -i 's|Listen 80|Listen '"$GUEST_PORT"'|' /etc/apache2/ports.conf && \
+            echo "ServerName localhost" > /etc/apache2/conf-available/servername.conf && \
+            a2enconf servername && \
+            a2enmod proxy proxy_http && \
+            a2ensite artifactory && \
+            rm -rf /var/log/apache2 && \
+            ln -s /artifactory/logs /var/log/apache2 && \
+            chown -h $RUN_USER:$RUN_GROUP /var/log/apache2 && \
+            chown -R $RUN_USER:$RUN_GROUP /var/lock/apache2 && \
+            chown -R $RUN_USER:$RUN_GROUP /var/run/apache2
+
+# Configure artifactory
+RUN         cd /tmp && \
+            wget ${ARTIFACTORY_DOWNLOAD_URL}
+
 # Configure helper scripts
 RUN         mv /tmp/initialize /artifactory/scripts && \
             chmod a+x /artifactory/scripts/initialize && \
