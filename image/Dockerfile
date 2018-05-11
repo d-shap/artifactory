@@ -127,11 +127,14 @@ RUN         sed -i 's|:80>|:'"$GUEST_PORT"'>|' /etc/apache2/sites-available/000-
 RUN         cd /tmp && \
             wget -q -O $ARTIFACTORY_DOWNLOAD_NAME.zip ${ARTIFACTORY_DOWNLOAD_URL} && \
             unzip $ARTIFACTORY_DOWNLOAD_NAME.zip -d /tmp && \
+            rm $ARTIFACTORY_DOWNLOAD_NAME.zip && \
             unzip /tmp/$ARTIFACTORY_DOWNLOAD_NAME/webapps/artifactory.war -d /var/lib/tomcat8/webapps && \
+            chown -R $RUN_USER:$RUN_GROUP /var/lib/tomcat8/webapps && \
             mkdir /etc/artifactory && \
             mv /tmp/$ARTIFACTORY_DOWNLOAD_NAME/etc /etc/artifactory && \
             mv /tmp/$ARTIFACTORY_DOWNLOAD_NAME/misc /etc/artifactory && \
-            chown -R $RUN_USER:$RUN_GROUP /etc/artifactory
+            chown -R $RUN_USER:$RUN_GROUP /etc/artifactory && \
+            cp /etc/artifactory/misc/db/mysql.properties /etc/artifactory/etc/db.properties
 
 # Configure helper scripts
 RUN         mv /tmp/initialize /artifactory/scripts && \
