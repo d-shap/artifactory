@@ -1,3 +1,4 @@
 #!/bin/bash
+apache2ctl -k graceful
 /usr/share/tomcat8/bin/shutdown.sh
 mysqladmin --user=root --password="$DB_ROOT_PASSWORD" shutdown
