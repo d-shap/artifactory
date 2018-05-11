@@ -86,6 +86,7 @@ RUN         chown -R $RUN_USER:$RUN_GROUP /etc/tomcat8 && \
             chown -R $RUN_USER:$RUN_GROUP /usr/share/tomcat8/shared && \
             ln -s /artifactory/logs /usr/share/tomcat8/logs && \
             chown -h $RUN_USER:$RUN_GROUP /usr/share/tomcat8/logs && \
+            chown -R $RUN_USER:$RUN_GROUP /var/cache/tomcat8 && \
             chown -h $RUN_USER:$RUN_GROUP /var/lib/tomcat8/conf && \
             chown -R $RUN_USER:$RUN_GROUP /var/lib/tomcat8/lib && \
             rm -rf /var/lib/tomcat8/logs && \
@@ -95,7 +96,9 @@ RUN         chown -R $RUN_USER:$RUN_GROUP /etc/tomcat8 && \
             chown -h $RUN_USER:$RUN_GROUP /var/lib/tomcat8/temp && \
             chown -R $RUN_USER:$RUN_GROUP /var/lib/tomcat8/webapps && \
             chown -h $RUN_USER:$RUN_GROUP /var/lib/tomcat8/work && \
-            chown -R $RUN_USER:$RUN_GROUP /var/cache/tomcat8
+            rm -rf /var/log/tomcat8 && \
+            ln -s /artifactory/logs /var/log/tomcat8 && \
+            chown -h $RUN_USER:$RUN_GROUP /var/log/tomcat8
 
 # Configure apache
 RUN         sed -i 's|:80>|:'"$GUEST_PORT"'>|' /etc/apache2/sites-available/000-default.conf && \
@@ -114,7 +117,7 @@ RUN         sed -i 's|:80>|:'"$GUEST_PORT"'>|' /etc/apache2/sites-available/000-
 
 # Configure artifactory
 RUN         cd /tmp && \
-            wget ${ARTIFACTORY_DOWNLOAD_URL} && \
+            wget -q -O $ARTIFACTORY_DOWNLOAD_NAME.zip ${ARTIFACTORY_DOWNLOAD_URL} && \
             unzip $ARTIFACTORY_DOWNLOAD_NAME.zip -d /tmp
 
 # Configure helper scripts
