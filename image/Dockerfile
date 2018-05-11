@@ -137,6 +137,8 @@ RUN         cd /tmp && \
             mv $ARTIFACTORY_ARCHIVED_FOLDER_NAME/etc $ARTIFACTORY_HOME && \
             mv $ARTIFACTORY_ARCHIVED_FOLDER_NAME/misc $ARTIFACTORY_HOME && \
             ln -s /artifactory/data $ARTIFACTORY_HOME/data && \
+            ln -s /artifactory/logs $ARTIFACTORY_HOME/logs && \
+            ln -s /artifactory/backups $ARTIFACTORY_HOME/backup && \
             chown -R -h $RUN_USER:$RUN_GROUP $ARTIFACTORY_HOME && \
             cp $ARTIFACTORY_HOME/misc/db/mysql.properties $ARTIFACTORY_HOME/etc/db.properties
 
