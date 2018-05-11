@@ -69,6 +69,7 @@ RUN         sed -i 's|user.*|user            = '"$RUN_USER"'|' /etc/mysql/my.cnf
             rm -rf /var/log/mysql && \
             ln -s /artifactory/logs /var/log/mysql && \
             chown -h $RUN_USER:$RUN_GROUP /var/log/mysql && \
+            mkdir -p /var/run/mysqld && \
             chown -R $RUN_USER:$RUN_GROUP /var/run/mysqld
 
 # Configure Tomcat
