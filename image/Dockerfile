@@ -143,12 +143,12 @@ RUN         cd /tmp && \
             mkdir $ARTIFACTORY_HOME && \
             mv $ARTIFACTORY_ARCHIVED_FOLDER_NAME/etc $ARTIFACTORY_HOME && \
             mv $ARTIFACTORY_ARCHIVED_FOLDER_NAME/misc $ARTIFACTORY_HOME && \
+            rm -rf $ARTIFACTORY_ARCHIVED_FOLDER_NAME && \
+            rm -rf $JDBC_DOWNLOAD_NAME && \
             ln -s /artifactory/data $ARTIFACTORY_HOME/data && \
             ln -s /artifactory/logs $ARTIFACTORY_HOME/logs && \
             ln -s /artifactory/backups $ARTIFACTORY_HOME/backup && \
             chown -R -h $RUN_USER:$RUN_GROUP $ARTIFACTORY_HOME && \
-            rm -rf $ARTIFACTORY_ARCHIVED_FOLDER_NAME && \
-            rm -rf $JDBC_DOWNLOAD_NAME && \
             cp $ARTIFACTORY_HOME/misc/db/mysql.properties $ARTIFACTORY_HOME/etc/db.properties
 
 # Configure helper scripts
