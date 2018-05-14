@@ -23,6 +23,9 @@ ENV         ARTIFACTORY_DOWNLOAD_VERSION 5.11.0
 ENV         ARTIFACTORY_DOWNLOAD_NAME jfrog-artifactory-oss-$ARTIFACTORY_DOWNLOAD_VERSION
 ENV         ARTIFACTORY_ARCHIVED_FOLDER_NAME artifactory-oss-$ARTIFACTORY_DOWNLOAD_VERSION
 ENV         ARTIFACTORY_DOWNLOAD_URL https://bintray.com/jfrog/artifactory/download_file?file_path=$ARTIFACTORY_DOWNLOAD_NAME.zip
+ENV         JDBC_DOWNLOAD_VERSION 8.0.11
+ENV         JDBC_DOWNLOAD_NAME mysql-connector-java-$JDBC_DOWNLOAD_VERSION
+ENV         JDBC_DOWNLOAD_URL https://dev.mysql.com/get/Downloads/Connector-J/$JDBC_DOWNLOAD_NAME.zip
 
 COPY        . /tmp
 
