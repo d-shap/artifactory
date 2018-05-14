@@ -95,17 +95,17 @@ RUN         mkdir -p /etc/tomcat8 && \
             chown -h $RUN_USER:$RUN_GROUP /usr/share/tomcat8/logs && \
             mkdir -p /var/cache/tomcat8 && \
             chown -R $RUN_USER:$RUN_GROUP /var/cache/tomcat8 && \
-            chown -h $RUN_USER:$RUN_GROUP /var/lib/tomcat8/conf && \
-            mkdir -p /var/lib/tomcat8/lib && \
-            chown -R $RUN_USER:$RUN_GROUP /var/lib/tomcat8/lib && \
-            rm -rf /var/lib/tomcat8/logs && \
-            ln -s /artifactory/logs /var/lib/tomcat8/logs && \
-            chown -h $RUN_USER:$RUN_GROUP /var/lib/tomcat8/logs && \
-            ln -s /tmp /var/lib/tomcat8/temp && \
-            chown -h $RUN_USER:$RUN_GROUP /var/lib/tomcat8/temp && \
-            mkdir -p /var/lib/tomcat8/webapps && \
-            chown -R $RUN_USER:$RUN_GROUP /var/lib/tomcat8/webapps && \
-            chown -h $RUN_USER:$RUN_GROUP /var/lib/tomcat8/work && \
+            chown -h $RUN_USER:$RUN_GROUP $CATALINA_BASE/conf && \
+            mkdir -p $CATALINA_BASE/lib && \
+            chown -R $RUN_USER:$RUN_GROUP $CATALINA_BASE/lib && \
+            rm -rf $CATALINA_BASE/logs && \
+            ln -s /artifactory/logs $CATALINA_BASE/logs && \
+            chown -h $RUN_USER:$RUN_GROUP $CATALINA_BASE/logs && \
+            ln -s /tmp $CATALINA_BASE/temp && \
+            chown -h $RUN_USER:$RUN_GROUP $CATALINA_BASE/temp && \
+            mkdir -p $CATALINA_BASE/webapps && \
+            chown -R $RUN_USER:$RUN_GROUP $CATALINA_BASE/webapps && \
+            chown -h $RUN_USER:$RUN_GROUP $CATALINA_BASE/work && \
             rm -rf /var/log/tomcat8 && \
             ln -s /artifactory/logs /var/log/tomcat8 && \
             chown -h $RUN_USER:$RUN_GROUP /var/log/tomcat8
@@ -136,9 +136,10 @@ RUN         cd /tmp && \
             wget -q -O $JDBC_DOWNLOAD_NAME.zip $JDBC_DOWNLOAD_URL && \
             unzip -q $JDBC_DOWNLOAD_NAME.zip -d /tmp && \
             rm $JDBC_DOWNLOAD_NAME.zip && \
-            mkdir /var/lib/tomcat8/webapps/$GUEST_APP_NAME && \
-            unzip -q $ARTIFACTORY_ARCHIVED_FOLDER_NAME/webapps/artifactory.war -d /var/lib/tomcat8/webapps/$GUEST_APP_NAME && \
-            chown -R $RUN_USER:$RUN_GROUP /var/lib/tomcat8/webapps/$GUEST_APP_NAME && \
+            mkdir $CATALINA_BASE/webapps/$GUEST_APP_NAME && \
+            unzip -q $ARTIFACTORY_ARCHIVED_FOLDER_NAME/webapps/artifactory.war -d $CATALINA_BASE/webapps/$GUEST_APP_NAME && \
+            mv $JDBC_DOWNLOAD_NAME/$JDBC_DOWNLOAD_NAME.jar $CATALINA_BASE/webapps/$GUEST_APP_NAME/WEB-INF/lib && \
+            chown -R $RUN_USER:$RUN_GROUP $CATALINA_BASE/webapps/$GUEST_APP_NAME && \
             mkdir $ARTIFACTORY_HOME && \
             mv $ARTIFACTORY_ARCHIVED_FOLDER_NAME/etc $ARTIFACTORY_HOME && \
             mv $ARTIFACTORY_ARCHIVED_FOLDER_NAME/misc $ARTIFACTORY_HOME && \
@@ -146,6 +147,8 @@ RUN         cd /tmp && \
             ln -s /artifactory/logs $ARTIFACTORY_HOME/logs && \
             ln -s /artifactory/backups $ARTIFACTORY_HOME/backup && \
             chown -R -h $RUN_USER:$RUN_GROUP $ARTIFACTORY_HOME && \
+            rm -rf $ARTIFACTORY_ARCHIVED_FOLDER_NAME && \
+            rm -rf $JDBC_DOWNLOAD_NAME && \
             cp $ARTIFACTORY_HOME/misc/db/mysql.properties $ARTIFACTORY_HOME/etc/db.properties
 
 # Configure helper scripts
