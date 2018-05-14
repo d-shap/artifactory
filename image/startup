@@ -4,6 +4,8 @@ then
     mysql_install_db
 fi
 
+sed -i 's|password.*|password='"$DB_USER_PASSWORD"'|' $ARTIFACTORY_HOME/etc/db.properties
+
 trap /artifactory/scripts/shutdown SIGHUP SIGINT SIGTERM TERM
 
 mysqld & /usr/share/tomcat8/bin/startup.sh & apache2ctl -D FOREGROUND & wait
