@@ -19,7 +19,7 @@ ENV         CATALINA_BASE /var/lib/tomcat8
 ENV         APACHE_RUN_USER $RUN_USER
 ENV         APACHE_RUN_GROUP $RUN_GROUP
 ENV         ARTIFACTORY_HOME /etc/artifactory
-ENV         ARTIFACTORY_DOWNLOAD_VERSION 5.11.0
+ENV         ARTIFACTORY_DOWNLOAD_VERSION 5.3.0
 ENV         ARTIFACTORY_DOWNLOAD_NAME jfrog-artifactory-oss-$ARTIFACTORY_DOWNLOAD_VERSION
 ENV         ARTIFACTORY_ARCHIVED_FOLDER_NAME artifactory-oss-$ARTIFACTORY_DOWNLOAD_VERSION
 ENV         ARTIFACTORY_DOWNLOAD_URL https://bintray.com/jfrog/artifactory/download_file?file_path=$ARTIFACTORY_DOWNLOAD_NAME.zip
@@ -150,7 +150,7 @@ RUN         cd /tmp && \
             ln -s /artifactory/backups $ARTIFACTORY_HOME/backup && \
             chown -R -h $RUN_USER:$RUN_GROUP $ARTIFACTORY_HOME && \
             cp $ARTIFACTORY_HOME/misc/db/mysql.properties $ARTIFACTORY_HOME/etc/db.properties && \
-            sed -i 's|localhost:3306/artdb?|localhost:3306/'"$DB_NAME"'?|' $ARTIFACTORY_HOME/etc/db.properties && \
+            sed -i 's|url=.*|url=jdbc:mysql://localhost:3306/'"$DB_NAME"'?characterEncoding=UTF-8\&elideSetAutoCommitts=true\&serverTimezone=UTC|' $ARTIFACTORY_HOME/etc/db.properties && \
             sed -i 's|username.*|username='"$DB_USER_NAME"'|' $ARTIFACTORY_HOME/etc/db.properties
 
 # Configure helper scripts
