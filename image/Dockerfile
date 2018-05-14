@@ -150,7 +150,7 @@ RUN         cd /tmp && \
             ln -s /artifactory/backups $ARTIFACTORY_HOME/backup && \
             chown -R -h $RUN_USER:$RUN_GROUP $ARTIFACTORY_HOME && \
             cp $ARTIFACTORY_HOME/misc/db/mysql.properties $ARTIFACTORY_HOME/etc/db.properties && \
-            sed -i 's|localhost:3306/artdb?|localhost:3306/'"$DB_NAME"'?|' $ARTIFACTORY_HOME/etc/db.properties && \
+            sed -i 's|localhost:3306/artdb\?|localhost:3306/'"$DB_NAME"'\?|' $ARTIFACTORY_HOME/etc/db.properties && \
             sed -i 's|username.*|username='"$DB_USER_NAME"'|' $ARTIFACTORY_HOME/etc/db.properties
 
 # Configure helper scripts
