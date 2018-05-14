@@ -80,19 +80,19 @@ RUN         sed -i 's|user.*|user            = '"$RUN_USER"'|' /etc/mysql/my.cnf
 # Configure Tomcat
 RUN         mkdir -p /etc/tomcat8 && \
             chown -R $RUN_USER:$RUN_GROUP /etc/tomcat8 && \
-            ln -s /etc/tomcat8 /usr/share/tomcat8/conf && \
-            chown -h $RUN_USER:$RUN_GROUP /usr/share/tomcat8/conf && \
-            mkdir /usr/share/tomcat8/common && \
-            mkdir /usr/share/tomcat8/common/classes && \
-            chown -R $RUN_USER:$RUN_GROUP /usr/share/tomcat8/common && \
-            mkdir /usr/share/tomcat8/server && \
-            mkdir /usr/share/tomcat8/server/classes && \
-            chown -R $RUN_USER:$RUN_GROUP /usr/share/tomcat8/server && \
-            mkdir /usr/share/tomcat8/shared && \
-            mkdir /usr/share/tomcat8/shared/classes && \
-            chown -R $RUN_USER:$RUN_GROUP /usr/share/tomcat8/shared && \
-            ln -s /artifactory/logs /usr/share/tomcat8/logs && \
-            chown -h $RUN_USER:$RUN_GROUP /usr/share/tomcat8/logs && \
+            ln -s /etc/tomcat8 $CATALINA_HOME/conf && \
+            chown -h $RUN_USER:$RUN_GROUP $CATALINA_HOME/conf && \
+            mkdir $CATALINA_HOME/common && \
+            mkdir $CATALINA_HOME/common/classes && \
+            chown -R $RUN_USER:$RUN_GROUP $CATALINA_HOME/common && \
+            mkdir $CATALINA_HOME/server && \
+            mkdir $CATALINA_HOME/server/classes && \
+            chown -R $RUN_USER:$RUN_GROUP $CATALINA_HOME/server && \
+            mkdir $CATALINA_HOME/shared && \
+            mkdir $CATALINA_HOME/shared/classes && \
+            chown -R $RUN_USER:$RUN_GROUP $CATALINA_HOME/shared && \
+            ln -s /artifactory/logs $CATALINA_HOME/logs && \
+            chown -h $RUN_USER:$RUN_GROUP $CATALINA_HOME/logs && \
             mkdir -p /var/cache/tomcat8 && \
             chown -R $RUN_USER:$RUN_GROUP /var/cache/tomcat8 && \
             chown -h $RUN_USER:$RUN_GROUP $CATALINA_BASE/conf && \
