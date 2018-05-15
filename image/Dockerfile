@@ -51,6 +51,7 @@ RUN         groupadd -g $hostgid $RUN_GROUP && \
 RUN         mkdir /artifactory && \
             mkdir /artifactory/db && \
             mkdir /artifactory/data && \
+            mkdir /artifactory/access && \
             mkdir /artifactory/scripts && \
             mkdir /artifactory/logs && \
             mkdir /artifactory/backups && \
@@ -126,6 +127,7 @@ RUN         cd /tmp && \
             rm -rf $ARTIFACTORY_ARCHIVED_FOLDER_NAME && \
             rm -rf $JDBC_DOWNLOAD_NAME && \
             ln -s /artifactory/data $ARTIFACTORY_HOME/data && \
+            ln -s /artifactory/access $ARTIFACTORY_HOME/access && \
             ln -s /artifactory/logs $ARTIFACTORY_HOME/logs && \
             ln -s /artifactory/backups $ARTIFACTORY_HOME/backup && \
             chown -R -h $RUN_USER:$RUN_GROUP $ARTIFACTORY_HOME && \
