@@ -16,8 +16,6 @@ ENV         DB_NAME artdb
 ENV         DB_USER_NAME artifactory
 ENV         CATALINA_HOME /usr/share/tomcat8
 ENV         CATALINA_BASE /var/lib/tomcat8
-ENV         APACHE_RUN_USER $RUN_USER
-ENV         APACHE_RUN_GROUP $RUN_GROUP
 ENV         ARTIFACTORY_HOME /etc/artifactory
 ENV         ARTIFACTORY_DOWNLOAD_VERSION 5.3.0
 ENV         ARTIFACTORY_DOWNLOAD_NAME jfrog-artifactory-oss-$ARTIFACTORY_DOWNLOAD_VERSION
@@ -36,7 +34,6 @@ RUN         echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty ma
             apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886 && \
             apt-get update && \
             apt-get install --assume-yes \
-                apache2 \
                 mysql-server \
                 oracle-java8-installer \
                 oracle-java8-set-default \
@@ -80,16 +77,20 @@ RUN         sed -i 's|user.*|user            = '"$RUN_USER"'|' /etc/mysql/my.cnf
 # Configure Tomcat
 RUN         mkdir -p /etc/tomcat8 && \
             chown -R $RUN_USER:$RUN_GROUP /etc/tomcat8 && \
+            sed -i 's|port="8080"|port="'"$GUEST_PORT"'"|' /etc/tomcat8/server.xml && \
             ln -s /etc/tomcat8 $CATALINA_HOME/conf && \
             chown -h $RUN_USER:$RUN_GROUP $CATALINA_HOME/conf && \
             mkdir $CATALINA_HOME/common && \
             mkdir $CATALINA_HOME/common/classes && \
+            mkdir $CATALINA_HOME/common/lib && \
             chown -R $RUN_USER:$RUN_GROUP $CATALINA_HOME/common && \
             mkdir $CATALINA_HOME/server && \
             mkdir $CATALINA_HOME/server/classes && \
+            mkdir $CATALINA_HOME/server/lib && \
             chown -R $RUN_USER:$RUN_GROUP $CATALINA_HOME/server && \
             mkdir $CATALINA_HOME/shared && \
             mkdir $CATALINA_HOME/shared/classes && \
+            mkdir $CATALINA_HOME/shared/lib && \
             chown -R $RUN_USER:$RUN_GROUP $CATALINA_HOME/shared && \
             ln -s /artifactory/logs $CATALINA_HOME/logs && \
             chown -h $RUN_USER:$RUN_GROUP $CATALINA_HOME/logs && \
@@ -110,24 +111,6 @@ RUN         mkdir -p /etc/tomcat8 && \
             ln -s /artifactory/logs /var/log/tomcat8 && \
             chown -h $RUN_USER:$RUN_GROUP /var/log/tomcat8
 
-# Configure apache
-RUN         sed -i 's|:80>|:'"$GUEST_PORT"'>|' /etc/apache2/sites-available/000-default.conf && \
-            sed -i 's|#ServerName www.example.com|ServerName localhost|' /etc/apache2/sites-available/000-default.conf && \
-            mv /tmp/artifactory.conf /etc/apache2/sites-available && \
-            sed -i 's|/guestappname|/'"$GUEST_APP_NAME"'|g' /etc/apache2/sites-available/artifactory.conf && \
-            sed -i 's|Listen 80|Listen '"$GUEST_PORT"'|' /etc/apache2/ports.conf && \
-            echo "ServerName localhost" > /etc/apache2/conf-available/servername.conf && \
-            a2enconf servername && \
-            a2enmod proxy proxy_ajp proxy_http rewrite deflate headers proxy_balancer proxy_connect proxy_html && \
-            a2ensite artifactory && \
-            rm -rf /var/log/apache2 && \
-            ln -s /artifactory/logs /var/log/apache2 && \
-            chown -h $RUN_USER:$RUN_GROUP /var/log/apache2 && \
-            mkdir -p /var/lock/apache2 && \
-            chown -R $RUN_USER:$RUN_GROUP /var/lock/apache2 && \
-            mkdir -p /var/run/apache2 && \
-            chown -R $RUN_USER:$RUN_GROUP /var/run/apache2
-
 # Configure artifactory
 RUN         cd /tmp && \
             wget -q -O $ARTIFACTORY_DOWNLOAD_NAME.zip $ARTIFACTORY_DOWNLOAD_URL && \
@@ -138,7 +121,7 @@ RUN         cd /tmp && \
             rm $JDBC_DOWNLOAD_NAME.zip && \
             mkdir $CATALINA_BASE/webapps/$GUEST_APP_NAME && \
             unzip -q $ARTIFACTORY_ARCHIVED_FOLDER_NAME/webapps/artifactory.war -d $CATALINA_BASE/webapps/$GUEST_APP_NAME && \
-            mv $JDBC_DOWNLOAD_NAME/$JDBC_DOWNLOAD_NAME.jar $CATALINA_BASE/webapps/$GUEST_APP_NAME/WEB-INF/lib && \
+            mv $JDBC_DOWNLOAD_NAME/$JDBC_DOWNLOAD_NAME.jar $CATALINA_HOME/common/lib && \
             chown -R $RUN_USER:$RUN_GROUP $CATALINA_BASE/webapps/$GUEST_APP_NAME && \
             mkdir $ARTIFACTORY_HOME && \
             mv $ARTIFACTORY_ARCHIVED_FOLDER_NAME/etc $ARTIFACTORY_HOME && \

@@ -8,4 +8,4 @@ sed -i 's|password.*|password='"$DB_USER_PASSWORD"'|' $ARTIFACTORY_HOME/etc/db.p
 
 trap /artifactory/scripts/shutdown SIGHUP SIGINT SIGTERM TERM
 
-mysqld & /usr/share/tomcat8/bin/startup.sh & apache2ctl -D FOREGROUND & wait
+mysqld & /usr/share/tomcat8/bin/startup.sh & wait
