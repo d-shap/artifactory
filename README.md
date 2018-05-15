@@ -33,6 +33,9 @@ Create folders for artifactory database:
 sudo mkdir /artifactory
 ```
 ```
+sudo mkdir /artifactory/access
+```
+```
 sudo mkdir /artifactory/db
 ```
 ```
