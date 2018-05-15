@@ -82,15 +82,12 @@ RUN         mkdir -p /etc/tomcat8 && \
             chown -h $RUN_USER:$RUN_GROUP $CATALINA_HOME/conf && \
             mkdir $CATALINA_HOME/common && \
             mkdir $CATALINA_HOME/common/classes && \
-            mkdir $CATALINA_HOME/common/lib && \
             chown -R $RUN_USER:$RUN_GROUP $CATALINA_HOME/common && \
             mkdir $CATALINA_HOME/server && \
             mkdir $CATALINA_HOME/server/classes && \
-            mkdir $CATALINA_HOME/server/lib && \
             chown -R $RUN_USER:$RUN_GROUP $CATALINA_HOME/server && \
             mkdir $CATALINA_HOME/shared && \
             mkdir $CATALINA_HOME/shared/classes && \
-            mkdir $CATALINA_HOME/shared/lib && \
             chown -R $RUN_USER:$RUN_GROUP $CATALINA_HOME/shared && \
             ln -s /artifactory/logs $CATALINA_HOME/logs && \
             chown -h $RUN_USER:$RUN_GROUP $CATALINA_HOME/logs && \
@@ -121,7 +118,7 @@ RUN         cd /tmp && \
             rm $JDBC_DOWNLOAD_NAME.zip && \
             mkdir $CATALINA_BASE/webapps/$GUEST_APP_NAME && \
             unzip -q $ARTIFACTORY_ARCHIVED_FOLDER_NAME/webapps/artifactory.war -d $CATALINA_BASE/webapps/$GUEST_APP_NAME && \
-            mv $JDBC_DOWNLOAD_NAME/$JDBC_DOWNLOAD_NAME.jar $CATALINA_HOME/common/lib && \
+            mv $JDBC_DOWNLOAD_NAME/$JDBC_DOWNLOAD_NAME.jar $CATALINA_BASE/webapps/$GUEST_APP_NAME/WEB-INF/lib && \
             chown -R $RUN_USER:$RUN_GROUP $CATALINA_BASE/webapps/$GUEST_APP_NAME && \
             mkdir $ARTIFACTORY_HOME && \
             mv $ARTIFACTORY_ARCHIVED_FOLDER_NAME/etc $ARTIFACTORY_HOME && \
