@@ -13,10 +13,10 @@ ENV         DB_NAME artdb
 ENV         DB_USER_NAME artifactory
 ENV         CATALINA_HOME /usr/share/tomcat8
 ENV         CATALINA_BASE /var/lib/tomcat8
-ENV         ARTIFACTORY_HOME /etc/artifactory
 ENV         JDBC_DOWNLOAD_VERSION 8.0.11
 ENV         JDBC_DOWNLOAD_NAME mysql-connector-java-$JDBC_DOWNLOAD_VERSION
 ENV         JDBC_DOWNLOAD_URL https://dev.mysql.com/get/Downloads/Connector-J/$JDBC_DOWNLOAD_NAME.zip
+ENV         ARTIFACTORY_HOME /etc/artifactory
 ENV         ARTIFACTORY_DOWNLOAD_VERSION 5.3.0
 ENV         ARTIFACTORY_DOWNLOAD_NAME jfrog-artifactory-oss-$ARTIFACTORY_DOWNLOAD_VERSION
 ENV         ARTIFACTORY_ARCHIVED_FOLDER_NAME artifactory-oss-$ARTIFACTORY_DOWNLOAD_VERSION
