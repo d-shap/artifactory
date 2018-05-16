@@ -49,6 +49,8 @@ RUN         mkdir /artifactory && \
             mkdir /artifactory/db && \
             mkdir /artifactory/data && \
             mkdir /artifactory/access && \
+            mkdir /artifactory/access/data && \
+            mkdir /artifactory/access/etc && \
             mkdir /artifactory/scripts && \
             mkdir /artifactory/logs && \
             mkdir /artifactory/backups && \
