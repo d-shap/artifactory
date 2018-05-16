@@ -9,6 +9,7 @@ To run container next volumes should be mapped:
 * folder for SQL database
 * folder for artifactory data
 * folder for artifactory access keys
+* folder for artifactory access data
 * log folder
 * backup folder
 
@@ -41,6 +42,12 @@ sudo mkdir /artifactory/data
 ```
 ```
 sudo mkdir /artifactory/access
+```
+```
+sudo mkdir /artifactory/access/etc
+```
+```
+sudo mkdir /artifactory/access/data
 ```
 
 Create folder for logs:
