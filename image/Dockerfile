@@ -3,13 +3,11 @@ MAINTAINER  Dmitry Shapovalov
 
 ARG         hostuid=966
 ARG         hostgid=966
-ARG         guestappname=artifactory
 
 ENV         DEBIAN_FRONTEND noninteractive
 ENV         RUN_USER artifactory
 ENV         RUN_GROUP artifactory
 ENV         GUEST_PORT 8006
-ENV         GUEST_APP_NAME $guestappname
 ENV         JAVA_HOME /usr/lib/jvm/java-8-oracle
 ENV         DB_NAME artdb
 ENV         DB_USER_NAME artifactory
@@ -116,10 +114,10 @@ RUN         cd /tmp && \
             wget -q -O $JDBC_DOWNLOAD_NAME.zip $JDBC_DOWNLOAD_URL && \
             unzip -q $JDBC_DOWNLOAD_NAME.zip -d /tmp && \
             rm $JDBC_DOWNLOAD_NAME.zip && \
-            mkdir $CATALINA_BASE/webapps/$GUEST_APP_NAME && \
-            unzip -q $ARTIFACTORY_ARCHIVED_FOLDER_NAME/webapps/artifactory.war -d $CATALINA_BASE/webapps/$GUEST_APP_NAME && \
-            mv $JDBC_DOWNLOAD_NAME/$JDBC_DOWNLOAD_NAME.jar $CATALINA_BASE/webapps/$GUEST_APP_NAME/WEB-INF/lib && \
-            chown -R $RUN_USER:$RUN_GROUP $CATALINA_BASE/webapps/$GUEST_APP_NAME && \
+            mkdir $CATALINA_BASE/webapps/artifactory && \
+            unzip -q $ARTIFACTORY_ARCHIVED_FOLDER_NAME/webapps/artifactory.war -d $CATALINA_BASE/webapps/artifactory && \
+            mv $JDBC_DOWNLOAD_NAME/$JDBC_DOWNLOAD_NAME.jar $CATALINA_BASE/webapps/artifactory/WEB-INF/lib && \
+            chown -R $RUN_USER:$RUN_GROUP $CATALINA_BASE/webapps/artifactory && \
             mkdir $ARTIFACTORY_HOME && \
             mv $ARTIFACTORY_ARCHIVED_FOLDER_NAME/etc $ARTIFACTORY_HOME && \
             mv $ARTIFACTORY_ARCHIVED_FOLDER_NAME/misc $ARTIFACTORY_HOME && \
