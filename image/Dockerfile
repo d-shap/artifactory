@@ -127,9 +127,13 @@ RUN         cd /tmp && \
             mv $ARTIFACTORY_ARCHIVED_FOLDER_NAME/misc $ARTIFACTORY_HOME && \
             rm -rf $ARTIFACTORY_ARCHIVED_FOLDER_NAME && \
             ln -s /artifactory/data $ARTIFACTORY_HOME/data && \
-            ln -s /artifactory/access $ARTIFACTORY_HOME/access && \
+            mkdir $ARTIFACTORY_HOME/access && \
+            ln -s /artifactory/access/data $ARTIFACTORY_HOME/access/data && \
+            ln -s /artifactory/access/etc $ARTIFACTORY_HOME/access/etc && \
             ln -s /artifactory/logs $ARTIFACTORY_HOME/logs && \
+            ln -s /artifactory/logs $ARTIFACTORY_HOME/access/logs && \
             ln -s /artifactory/backups $ARTIFACTORY_HOME/backup && \
+            ln -s /artifactory/backups $ARTIFACTORY_HOME/access/backup && \
             chown -R -h $RUN_USER:$RUN_GROUP $ARTIFACTORY_HOME && \
             cp $ARTIFACTORY_HOME/misc/db/mysql.properties $ARTIFACTORY_HOME/etc/db.properties && \
             sed -i 's|url=.*|url=jdbc:mysql://localhost:3306/'"$DB_NAME"'?characterEncoding=UTF-8\&elideSetAutoCommitts=true\&serverTimezone=UTC|' $ARTIFACTORY_HOME/etc/db.properties && \
