@@ -7,7 +7,7 @@ ARG         hostgid=966
 ENV         DEBIAN_FRONTEND noninteractive
 ENV         RUN_USER artifactory
 ENV         RUN_GROUP artifactory
-ENV         GUEST_PORT 8006
+ENV         RUN_PORT 8006
 ENV         JAVA_HOME /usr/lib/jvm/java-8-oracle
 ENV         DB_NAME artdb
 ENV         DB_USER_NAME artifactory
@@ -75,7 +75,7 @@ RUN         sed -i 's|user.*|user            = '"$RUN_USER"'|' /etc/mysql/my.cnf
 # Configure Tomcat
 RUN         mkdir -p /etc/tomcat8 && \
             chown -R $RUN_USER:$RUN_GROUP /etc/tomcat8 && \
-            sed -i 's|port="8080"|port="'"$GUEST_PORT"'"|' /etc/tomcat8/server.xml && \
+            sed -i 's|port="8080"|port="'"$RUN_PORT"'"|' /etc/tomcat8/server.xml && \
             ln -s /etc/tomcat8 $CATALINA_HOME/conf && \
             chown -h $RUN_USER:$RUN_GROUP $CATALINA_HOME/conf && \
             mkdir $CATALINA_HOME/common && \
@@ -150,6 +150,6 @@ RUN         mv /tmp/initialize /artifactory/scripts && \
 
 USER        $RUN_USER
 
-EXPOSE      $GUEST_PORT
+EXPOSE      $RUN_PORT
 
 ENTRYPOINT  ["/artifactory/scripts/startup"]
