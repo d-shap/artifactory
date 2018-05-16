@@ -3,13 +3,12 @@ MAINTAINER  Dmitry Shapovalov
 
 ARG         hostuid=966
 ARG         hostgid=966
-ARG         guestport=8006
 ARG         guestappname=artifactory
 
 ENV         DEBIAN_FRONTEND noninteractive
 ENV         RUN_USER artifactory
 ENV         RUN_GROUP artifactory
-ENV         GUEST_PORT $guestport
+ENV         GUEST_PORT 8006
 ENV         GUEST_APP_NAME $guestappname
 ENV         JAVA_HOME /usr/lib/jvm/java-8-oracle
 ENV         DB_NAME artdb
