@@ -14,13 +14,13 @@ ENV         DB_USER_NAME artifactory
 ENV         CATALINA_HOME /usr/share/tomcat8
 ENV         CATALINA_BASE /var/lib/tomcat8
 ENV         ARTIFACTORY_HOME /etc/artifactory
+ENV         JDBC_DOWNLOAD_VERSION 8.0.11
+ENV         JDBC_DOWNLOAD_NAME mysql-connector-java-$JDBC_DOWNLOAD_VERSION
+ENV         JDBC_DOWNLOAD_URL https://dev.mysql.com/get/Downloads/Connector-J/$JDBC_DOWNLOAD_NAME.zip
 ENV         ARTIFACTORY_DOWNLOAD_VERSION 5.3.0
 ENV         ARTIFACTORY_DOWNLOAD_NAME jfrog-artifactory-oss-$ARTIFACTORY_DOWNLOAD_VERSION
 ENV         ARTIFACTORY_ARCHIVED_FOLDER_NAME artifactory-oss-$ARTIFACTORY_DOWNLOAD_VERSION
 ENV         ARTIFACTORY_DOWNLOAD_URL https://bintray.com/jfrog/artifactory/download_file?file_path=$ARTIFACTORY_DOWNLOAD_NAME.zip
-ENV         JDBC_DOWNLOAD_VERSION 8.0.11
-ENV         JDBC_DOWNLOAD_NAME mysql-connector-java-$JDBC_DOWNLOAD_VERSION
-ENV         JDBC_DOWNLOAD_URL https://dev.mysql.com/get/Downloads/Connector-J/$JDBC_DOWNLOAD_NAME.zip
 
 COPY        . /tmp
 
@@ -108,21 +108,22 @@ RUN         mkdir -p /etc/tomcat8 && \
 
 # Configure artifactory
 RUN         cd /tmp && \
-            wget -q -O $ARTIFACTORY_DOWNLOAD_NAME.zip $ARTIFACTORY_DOWNLOAD_URL && \
-            unzip -q $ARTIFACTORY_DOWNLOAD_NAME.zip -d /tmp && \
-            rm $ARTIFACTORY_DOWNLOAD_NAME.zip && \
             wget -q -O $JDBC_DOWNLOAD_NAME.zip $JDBC_DOWNLOAD_URL && \
             unzip -q $JDBC_DOWNLOAD_NAME.zip -d /tmp && \
             rm $JDBC_DOWNLOAD_NAME.zip && \
+            mv $JDBC_DOWNLOAD_NAME/$JDBC_DOWNLOAD_NAME.jar $CATALINA_BASE/lib && \
+            chown -R $RUN_USER:$RUN_GROUP $CATALINA_BASE/lib && \
+            rm -rf $JDBC_DOWNLOAD_NAME && \
+            wget -q -O $ARTIFACTORY_DOWNLOAD_NAME.zip $ARTIFACTORY_DOWNLOAD_URL && \
+            unzip -q $ARTIFACTORY_DOWNLOAD_NAME.zip -d /tmp && \
+            rm $ARTIFACTORY_DOWNLOAD_NAME.zip && \
             mkdir $CATALINA_BASE/webapps/artifactory && \
             unzip -q $ARTIFACTORY_ARCHIVED_FOLDER_NAME/webapps/artifactory.war -d $CATALINA_BASE/webapps/artifactory && \
-            mv $JDBC_DOWNLOAD_NAME/$JDBC_DOWNLOAD_NAME.jar $CATALINA_BASE/webapps/artifactory/WEB-INF/lib && \
             chown -R $RUN_USER:$RUN_GROUP $CATALINA_BASE/webapps/artifactory && \
             mkdir $ARTIFACTORY_HOME && \
             mv $ARTIFACTORY_ARCHIVED_FOLDER_NAME/etc $ARTIFACTORY_HOME && \
             mv $ARTIFACTORY_ARCHIVED_FOLDER_NAME/misc $ARTIFACTORY_HOME && \
             rm -rf $ARTIFACTORY_ARCHIVED_FOLDER_NAME && \
-            rm -rf $JDBC_DOWNLOAD_NAME && \
             ln -s /artifactory/data $ARTIFACTORY_HOME/data && \
             ln -s /artifactory/access $ARTIFACTORY_HOME/access && \
             ln -s /artifactory/logs $ARTIFACTORY_HOME/logs && \
