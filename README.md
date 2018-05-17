@@ -126,3 +126,121 @@ Management
 ```
 sudo service artifactory (start|stop|status|restart)
 ```
+
+### Create backup
+```
+sudo artutil backup <filename>
+```
+
+Backup file **/var/backups/artifactory/&lt;filename&gt;.tar.gz** will be created.
+
+### Restore backup
+```
+sudo artutil restore <filename>
+```
+
+### Command line (bash)
+```
+sudo artutil bash
+```
+
+Apache mod_proxy configuration
+------------------------------
+Artifactory web server can be located with another web applications.
+For example, mercurial, bugzilla, wiki etc can be run as docker containers on the same host.
+In this case apache server can be used to redirect requests to different docker containers.
+
+First, mod_proxy should be enabled:
+```
+sudo a2enmod proxy proxy_ajp proxy_http rewrite deflate headers proxy_balancer proxy_connect proxy_html
+```
+
+Then configure proxy:
+```
+<VirtualHost *:80>
+
+...
+
+ProxyPreserveHost On
+<Proxy *>
+    Order allow,deny
+    Allow from all
+</Proxy>
+
+...
+
+</VirtualHost>
+```
+
+Copy **./etc/apache2/sites-available/artifactory.conf** to **/etc/apache2/sites-available** folder:
+```
+sudo cp ./etc/apache2/sites-available/artifactory.conf /etc/apache2/sites-available
+```
+
+Then enable apache site:
+```
+sudo a2ensite artifactory
+```
+
+Finally, restart apache service:
+```
+sudo service apache2 restart
+```
+
+HOW TO
+------
+### How to change database root password
+Stop artifactory service:
+```
+sudo service artifactory stop
+```
+
+Specify new database root password in **/usr/sbin/artifactory** file:
+```
+docker run ... -e DB_ROOT_PASSWORD="<new_password>" ...
+```
+
+Start artifactory service:
+```
+sudo service artifactory start
+```
+
+Run the following command:
+```
+sudo artutil changeRootPassword "<old_password>"
+```
+
+### How to change artifactory database user password
+Stop artifactory service:
+```
+sudo service artifactory stop
+```
+
+Specify new artifactory database user password in **/usr/sbin/artifactory** file:
+```
+docker run ... -e DB_USER_PASSWORD="<new_password>" ...  
+```
+
+Start artifactory service:
+```
+sudo service artifactory start
+```
+
+Run the following command
+```
+sudo artutil changeUserPassword
+```
+
+### How to specify special characters in password
+Special characters should be escaped:
+```
+docker run ... -e DB_ROOT_PASSWORD="pa\$\$word" ...
+```
+```
+docker run ... -e DB_USER_PASSWORD="pas\$11" ...  
+```
+
+### How to create cron job for backups
+```
+sudo crontab -l | { cat; echo "minute hour * * * /usr/bin/artutil backup <filename>"; echo ""; } | sudo crontab -
+```
