@@ -17,7 +17,7 @@ ENV         JDBC_DOWNLOAD_VERSION 8.0.11
 ENV         JDBC_DOWNLOAD_NAME mysql-connector-java-$JDBC_DOWNLOAD_VERSION
 ENV         JDBC_DOWNLOAD_URL https://dev.mysql.com/get/Downloads/Connector-J/$JDBC_DOWNLOAD_NAME.zip
 ENV         ARTIFACTORY_HOME /etc/artifactory
-ENV         ARTIFACTORY_DOWNLOAD_VERSION 5.11.0
+ENV         ARTIFACTORY_DOWNLOAD_VERSION 5.3.0
 ENV         ARTIFACTORY_DOWNLOAD_NAME jfrog-artifactory-oss-$ARTIFACTORY_DOWNLOAD_VERSION
 ENV         ARTIFACTORY_ARCHIVED_FOLDER_NAME artifactory-oss-$ARTIFACTORY_DOWNLOAD_VERSION
 ENV         ARTIFACTORY_DOWNLOAD_URL https://bintray.com/jfrog/artifactory/download_file?file_path=$ARTIFACTORY_DOWNLOAD_NAME.zip
@@ -120,9 +120,6 @@ RUN         cd /tmp && \
             mkdir $CATALINA_BASE/webapps/artifactory && \
             unzip -q $ARTIFACTORY_ARCHIVED_FOLDER_NAME/webapps/artifactory.war -d $CATALINA_BASE/webapps/artifactory && \
             chown -R $RUN_USER:$RUN_GROUP $CATALINA_BASE/webapps/artifactory && \
-            mkdir $CATALINA_BASE/webapps/access && \
-            unzip -q $ARTIFACTORY_ARCHIVED_FOLDER_NAME/webapps/access.war -d $CATALINA_BASE/webapps/access && \
-            chown -R $RUN_USER:$RUN_GROUP $CATALINA_BASE/webapps/access && \
             mkdir $ARTIFACTORY_HOME && \
             mv $ARTIFACTORY_ARCHIVED_FOLDER_NAME/etc $ARTIFACTORY_HOME && \
             mv $ARTIFACTORY_ARCHIVED_FOLDER_NAME/misc $ARTIFACTORY_HOME && \
