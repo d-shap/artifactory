@@ -114,7 +114,7 @@ RUN         cd /tmp && \
             unzip -q $JDBC_DOWNLOAD_NAME.zip -d /tmp && \
             rm $JDBC_DOWNLOAD_NAME.zip && \
             mv $JDBC_DOWNLOAD_NAME/$JDBC_DOWNLOAD_NAME.jar $CATALINA_BASE/lib && \
-            chown -R $RUN_USER:$RUN_GROUP $CATALINA_BASE/lib && \
+            chown $RUN_USER:$RUN_GROUP $CATALINA_BASE/lib/$JDBC_DOWNLOAD_NAME.jar && \
             rm -rf $JDBC_DOWNLOAD_NAME && \
             wget -O $ARTIFACTORY_DOWNLOAD_NAME.zip $ARTIFACTORY_DOWNLOAD_URL && \
             unzip -q $ARTIFACTORY_DOWNLOAD_NAME.zip -d /tmp && \
