@@ -115,6 +115,11 @@ Initialize artifactory database:
 sudo artutil initialize
 ```
 
+Restart artifactory service:
+```
+sudo service artifactory restart
+```
+
 Management
 ----------
 ### Service management
