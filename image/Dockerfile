@@ -110,13 +110,13 @@ RUN         mkdir -p /etc/tomcat8 && \
 
 # Configure artifactory
 RUN         cd /tmp && \
-            wget -q -O $JDBC_DOWNLOAD_NAME.zip $JDBC_DOWNLOAD_URL && \
+            wget -O $JDBC_DOWNLOAD_NAME.zip $JDBC_DOWNLOAD_URL && \
             unzip -q $JDBC_DOWNLOAD_NAME.zip -d /tmp && \
             rm $JDBC_DOWNLOAD_NAME.zip && \
             mv $JDBC_DOWNLOAD_NAME/$JDBC_DOWNLOAD_NAME.jar $CATALINA_BASE/lib && \
             chown -R $RUN_USER:$RUN_GROUP $CATALINA_BASE/lib && \
             rm -rf $JDBC_DOWNLOAD_NAME && \
-            wget -q -O $ARTIFACTORY_DOWNLOAD_NAME.zip $ARTIFACTORY_DOWNLOAD_URL && \
+            wget -O $ARTIFACTORY_DOWNLOAD_NAME.zip $ARTIFACTORY_DOWNLOAD_URL && \
             unzip -q $ARTIFACTORY_DOWNLOAD_NAME.zip -d /tmp && \
             rm $ARTIFACTORY_DOWNLOAD_NAME.zip && \
             mkdir $CATALINA_BASE/webapps/artifactory && \
