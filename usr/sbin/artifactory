@@ -6,6 +6,7 @@ docker run \
     -v /etc/localtime:/etc/localtime \
     -v /artifactory/db:/artifactory/db \
     -v /artifactory/data:/artifactory/data \
+    -v /artifactory/security:/artifactory/security \
     -v /artifactory/access:/artifactory/access \
     -v /var/log/artifactory:/artifactory/logs \
     -v /var/backups/artifactory:/artifactory/backups \

@@ -48,6 +48,7 @@ RUN         groupadd -g $hostgid $RUN_GROUP && \
 RUN         mkdir /artifactory && \
             mkdir /artifactory/db && \
             mkdir /artifactory/data && \
+            mkdir /artifactory/security && \
             mkdir /artifactory/access && \
             mkdir /artifactory/scripts && \
             mkdir /artifactory/logs && \
@@ -125,6 +126,7 @@ RUN         cd /tmp && \
             mv $ARTIFACTORY_ARCHIVED_FOLDER_NAME/misc $ARTIFACTORY_HOME && \
             rm -rf $ARTIFACTORY_ARCHIVED_FOLDER_NAME && \
             ln -s /artifactory/data $ARTIFACTORY_HOME/data && \
+            ln -s /artifactory/security $ARTIFACTORY_HOME/etc/security && \
             ln -s /artifactory/access $ARTIFACTORY_HOME/access && \
             ln -s /artifactory/logs $ARTIFACTORY_HOME/logs && \
             ln -s /artifactory/backups $ARTIFACTORY_HOME/backup && \
