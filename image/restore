@@ -1,4 +1,17 @@
 #!/bin/bash
 if [ "$1" != "" ];
 then
+    DUMP="$DB_NAME.dump"
+    DUMPFILE="/artifactory/$DUMP"
+    FILE="/artifactory/backups/$1.tar.gz"
+
+    if [ -e "$FILE" ];
+    then
+        cd /artifactory
+        tar -xzf $FILE $DUMP data security access
+
+        mysql --user="$DB_USER_NAME" --password="$DB_USER_PASSWORD" "$DB_NAME" < $DUMPFILE
+
+        rm $DUMPFILE
+    fi
 fi
