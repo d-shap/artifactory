@@ -8,32 +8,30 @@ ENV         DEBIAN_FRONTEND noninteractive
 ENV         RUN_USER artifactory
 ENV         RUN_GROUP artifactory
 ENV         RUN_PORT 8006
-ENV         JAVA_HOME /usr/lib/jvm/java-8-oracle
-ENV         DB_NAME artdb
-ENV         DB_USER_NAME artifactory
+ENV         JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 ENV         CATALINA_HOME /usr/share/tomcat8
 ENV         CATALINA_BASE /var/lib/tomcat8
-ENV         JDBC_DOWNLOAD_VERSION 8.0.11
-ENV         JDBC_DOWNLOAD_NAME mysql-connector-java-$JDBC_DOWNLOAD_VERSION
-ENV         JDBC_DOWNLOAD_URL https://dev.mysql.com/get/Downloads/Connector-J/$JDBC_DOWNLOAD_NAME.zip
 ENV         ARTIFACTORY_HOME /etc/artifactory
-ENV         ARTIFACTORY_DOWNLOAD_VERSION 5.3.0
-ENV         ARTIFACTORY_DOWNLOAD_NAME jfrog-artifactory-oss-$ARTIFACTORY_DOWNLOAD_VERSION
-ENV         ARTIFACTORY_ARCHIVED_FOLDER_NAME artifactory-oss-$ARTIFACTORY_DOWNLOAD_VERSION
-ENV         ARTIFACTORY_DOWNLOAD_URL https://bintray.com/jfrog/artifactory/download_file?file_path=$ARTIFACTORY_DOWNLOAD_NAME.zip
+ENV         DB_NAME artdb
+ENV         DB_USER_NAME artifactory
+ENV         JDBC_DOWNLOAD_URL https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-8.0.11.zip
+ENV         JDBC_DOWNLOAD_NAME mysql-connector-java-8.0.11
+ENV         JDBC_JAR_NAME mysql-connector-java-8.0.11
+ENV         ARTIFACTORY_DOWNLOAD_URL https://bintray.com/jfrog/artifactory/download_file?file_path=jfrog-artifactory-oss-5.3.0.zip
+ENV         ARTIFACTORY_DOWNLOAD_NAME artifactory-oss-5.3.0
+ENV         ARTIFACTORY_WAR_NAME artifactory
 
 COPY        . /tmp
 
 # Install packages
-RUN         echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" >> /etc/apt/sources.list.d/java.list && \
-            echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu trusty main" >> /etc/apt/sources.list.d/java.list && \
-            echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 select true" | /usr/bin/debconf-set-selections && \
-            apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys EEA14886 && \
+RUN         echo "deb http://http.debian.net/debian jessie-backports main" >> /etc/apt/sources.list.d/backports.list && \
             apt-get update && \
+            apt-get install --assume-yes -t jessie-backports \
+                ca-certificates-java \
+                openjdk-8-jdk-headless \
+                openjdk-8-jre-headless && \
             apt-get install --assume-yes \
                 mysql-server \
-                oracle-java8-installer \
-                oracle-java8-set-default \
                 tomcat8 \
                 unzip \
                 vim \
@@ -112,19 +110,19 @@ RUN         cd /tmp && \
             wget -O $JDBC_DOWNLOAD_NAME.zip $JDBC_DOWNLOAD_URL && \
             unzip -q $JDBC_DOWNLOAD_NAME.zip -d /tmp && \
             rm $JDBC_DOWNLOAD_NAME.zip && \
-            mv $JDBC_DOWNLOAD_NAME/$JDBC_DOWNLOAD_NAME.jar $CATALINA_BASE/lib && \
-            chown $RUN_USER:$RUN_GROUP $CATALINA_BASE/lib/$JDBC_DOWNLOAD_NAME.jar && \
+            mv $JDBC_DOWNLOAD_NAME/$JDBC_JAR_NAME.jar $CATALINA_BASE/lib && \
+            chown $RUN_USER:$RUN_GROUP $CATALINA_BASE/lib/$JDBC_JAR_NAME.jar && \
             rm -rf $JDBC_DOWNLOAD_NAME && \
             wget -O $ARTIFACTORY_DOWNLOAD_NAME.zip $ARTIFACTORY_DOWNLOAD_URL && \
             unzip -q $ARTIFACTORY_DOWNLOAD_NAME.zip -d /tmp && \
             rm $ARTIFACTORY_DOWNLOAD_NAME.zip && \
             mkdir $CATALINA_BASE/webapps/artifactory && \
-            unzip -q $ARTIFACTORY_ARCHIVED_FOLDER_NAME/webapps/artifactory.war -d $CATALINA_BASE/webapps/artifactory && \
+            unzip -q $ARTIFACTORY_DOWNLOAD_NAME/webapps/$ARTIFACTORY_WAR_NAME.war -d $CATALINA_BASE/webapps/artifactory && \
             chown -R $RUN_USER:$RUN_GROUP $CATALINA_BASE/webapps/artifactory && \
             mkdir $ARTIFACTORY_HOME && \
-            mv $ARTIFACTORY_ARCHIVED_FOLDER_NAME/etc $ARTIFACTORY_HOME && \
-            mv $ARTIFACTORY_ARCHIVED_FOLDER_NAME/misc $ARTIFACTORY_HOME && \
-            rm -rf $ARTIFACTORY_ARCHIVED_FOLDER_NAME && \
+            mv $ARTIFACTORY_DOWNLOAD_NAME/etc $ARTIFACTORY_HOME && \
+            mv $ARTIFACTORY_DOWNLOAD_NAME/misc $ARTIFACTORY_HOME && \
+            rm -rf $ARTIFACTORY_DOWNLOAD_NAME && \
             ln -s /artifactory/data $ARTIFACTORY_HOME/data && \
             ln -s /artifactory/security $ARTIFACTORY_HOME/etc/security && \
             ln -s /artifactory/access $ARTIFACTORY_HOME/access && \
