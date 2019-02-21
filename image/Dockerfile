@@ -134,20 +134,14 @@ RUN         cd /tmp && \
             sed -i 's|username.*|username='"$DB_USER_NAME"'|' $ARTIFACTORY_HOME/etc/db.properties
 
 # Configure helper scripts
-RUN         mv /tmp/initialize /artifactory/scripts && \
-            chmod a+x /artifactory/scripts/initialize && \
-            mv /tmp/changeRootPassword /artifactory/scripts && \
-            chmod a+x /artifactory/scripts/changeRootPassword && \
-            mv /tmp/changeUserPassword /artifactory/scripts && \
-            chmod a+x /artifactory/scripts/changeUserPassword && \
-            mv /tmp/backup /artifactory/scripts && \
-            chmod a+x /artifactory/scripts/backup && \
-            mv /tmp/restore /artifactory/scripts && \
-            chmod a+x /artifactory/scripts/restore && \
-            mv /tmp/startup /artifactory/scripts && \
-            chmod a+x /artifactory/scripts/startup && \
+RUN         mv /tmp/startup /artifactory/scripts && \
             mv /tmp/shutdown /artifactory/scripts && \
-            chmod a+x /artifactory/scripts/shutdown
+            mv /tmp/initialize /artifactory/scripts && \
+            mv /tmp/changeRootPassword /artifactory/scripts && \
+            mv /tmp/changeUserPassword /artifactory/scripts && \
+            mv /tmp/backup /artifactory/scripts && \
+            mv /tmp/restore /artifactory/scripts && \
+            chmod a+x /artifactory/scripts/*
 
 USER        $RUN_USER
 
