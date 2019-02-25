@@ -141,7 +141,7 @@ RUN         mv /tmp/startup /artifactory/scripts && \
             mv /tmp/changeUserPassword /artifactory/scripts && \
             mv /tmp/backup /artifactory/scripts && \
             mv /tmp/restore /artifactory/scripts && \
-            chmod a+x /artifactory/scripts/*
+            chmod 755 /artifactory/scripts/*
 
 USER        $RUN_USER
 
