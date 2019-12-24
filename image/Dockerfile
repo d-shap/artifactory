@@ -4,22 +4,22 @@ MAINTAINER  Dmitry Shapovalov
 ARG         hostuid=966
 ARG         hostgid=966
 
-ENV         DEBIAN_FRONTEND noninteractive
-ENV         RUN_USER artifactory
-ENV         RUN_GROUP artifactory
-ENV         RUN_PORT 8006
-ENV         JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
-ENV         CATALINA_HOME /usr/share/tomcat8
-ENV         CATALINA_BASE /var/lib/tomcat8
-ENV         ARTIFACTORY_HOME /etc/artifactory
-ENV         DB_NAME artdb
-ENV         DB_USER_NAME artifactory
-ENV         JDBC_DOWNLOAD_URL https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-8.0.11.zip
-ENV         JDBC_DOWNLOAD_NAME mysql-connector-java-8.0.11
-ENV         JDBC_JAR_NAME mysql-connector-java-8.0.11
-ENV         ARTIFACTORY_DOWNLOAD_URL https://bintray.com/jfrog/artifactory/download_file?file_path=jfrog-artifactory-oss-5.3.0.zip
-ENV         ARTIFACTORY_DOWNLOAD_NAME artifactory-oss-5.3.0
-ENV         ARTIFACTORY_WAR_NAME artifactory
+ENV         DEBIAN_FRONTEND=noninteractive \
+            RUN_USER=artifactory \
+            RUN_GROUP=artifactory \
+            RUN_PORT=8006 \
+            JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 \
+            CATALINA_HOME=/usr/share/tomcat8 \
+            CATALINA_BASE=/var/lib/tomcat8 \
+            ARTIFACTORY_HOME=/etc/artifactory \
+            DB_NAME=artdb \
+            DB_USER_NAME=artifactory \
+            JDBC_DOWNLOAD_URL="https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-8.0.11.zip" \
+            JDBC_DOWNLOAD_NAME="mysql-connector-java-8.0.11" \
+            JDBC_JAR_NAME="mysql-connector-java-8.0.11" \
+            ARTIFACTORY_DOWNLOAD_URL="https://bintray.com/jfrog/artifactory/download_file?file_path=jfrog-artifactory-oss-5.3.0.zip" \
+            ARTIFACTORY_DOWNLOAD_NAME="artifactory-oss-5.3.0" \
+            ARTIFACTORY_WAR_NAME="artifactory" \
 
 COPY        . /tmp
 
