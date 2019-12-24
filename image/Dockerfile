@@ -147,8 +147,10 @@ RUN         cd /tmp && \
             mv $ARTIFACTORY_DOWNLOAD_NAME/misc $ARTIFACTORY_HOME && \
             rm -rf $ARTIFACTORY_DOWNLOAD_NAME && \
             ln -s /artifactory/data $ARTIFACTORY_HOME/data && \
-            ln -s /artifactory/security $ARTIFACTORY_HOME/etc/security && \
             ln -s /artifactory/access $ARTIFACTORY_HOME/access && \
+            mkdir $ARTIFACTORY_HOME/etc/plugins && \
+            ln -s /artifactory/security $ARTIFACTORY_HOME/etc/security && \
+            mkdir $ARTIFACTORY_HOME/etc/ui && \
             ln -s /artifactory/logs $ARTIFACTORY_HOME/logs && \
             ln -s /artifactory/backups $ARTIFACTORY_HOME/backup && \
             chown -R -h $RUN_USER:$RUN_GROUP $ARTIFACTORY_HOME && \
