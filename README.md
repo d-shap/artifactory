@@ -14,37 +14,37 @@ To run container next volumes should be mapped:
 
 ## Installation
 ### Installation from docker image
-Pull docker image.
+1. Pull docker image.
 
-Create user and group to own artifactory files and to run docker container:
-```
-sudo groupadd -g 966 artifactory
-```
-```
-useradd -u 966 -g 966 -M artifactory
-```
+2. Create user and group to own artifactory files and to run docker container:
+    ```
+    sudo groupadd -g 966 artifactory
+    ```
+    ```
+    useradd -u 966 -g 966 -M artifactory
+    ```
 
-Proceed to configuration.
+3. Proceed to configuration.
 
 ### Installation from source
-Pull project sources from version control system.
+1. Pull project sources from version control system.
 
-Create user and group to own artifactory files and to run docker container:
-```
-sudo useradd -r artifactory
-```
+2. Create user and group to own artifactory files and to run docker container:
+    ```
+    sudo useradd -r artifactory
+    ```
 
-Make **build** executable:
-```
-sudo chmod u+x ./build
-```
+3. Make **build** executable:
+    ```
+    sudo chmod u+x ./build
+    ```
 
-Execute **build**:
-```
-sudo ./build artifactory
-```
+4. Execute **build**:
+    ```
+    sudo ./build artifactory
+    ```
 
-Proceed to configuration.
+5. Proceed to configuration.
 
 ### Configuration
 Create folders for artifactory database:
