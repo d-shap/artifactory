@@ -14,7 +14,7 @@ ENV         DEBIAN_FRONTEND=noninteractive \
             ARTIFACTORY_HOME=/etc/artifactory \
             DB_NAME=artdb \
             DB_USER_NAME=artifactory \
-            JDBC_DOWNLOAD_URL="https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-8.0.11.zip" \
+            JDBC_DOWNLOAD_URL="https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-8.0.18.zip" \
             JDBC_DOWNLOAD_NAME="mysql-connector-java-8.0.11" \
             JDBC_JAR_NAME="mysql-connector-java-8.0.11" \
             ARTIFACTORY_DOWNLOAD_URL="https://bintray.com/jfrog/artifactory/download_file?file_path=jfrog-artifactory-oss-5.3.0.zip" \
