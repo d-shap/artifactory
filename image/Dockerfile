@@ -52,7 +52,7 @@ RUN         mkdir /artifactory && \
 
 # Install Java
 RUN         apt-get update && \
-            apt-get install --assume-yes -t jessie-backports \
+            apt-get install --assume-yes -t stretch-backports \
                 ca-certificates-java \
                 openjdk-8-jdk-headless \
                 openjdk-8-jre-headless && \
