@@ -76,9 +76,9 @@ RUN         apt-get update && \
             sed -i '\|# Read the manual for more InnoDB related options..*|a innodb_file_per_table' /etc/mysql/mariadb.conf.d/50-server.cnf && \
             sed -i '\|innodb_file_per_table|a innodb_log_buffer_size  = 4M' /etc/mysql/mariadb.conf.d/50-server.cnf && \
             sed -i '\|innodb_file_per_table|a innodb_log_file_size    = 256M' /etc/mysql/mariadb.conf.d/50-server.cnf && \
-            sed -i '\|innodb_file_per_table|a max_heap_table_size     = 128M' /etc/mysql/mariadb.conf.d/50-server.cnf && \
-            sed -i '\|innodb_file_per_table|a tmp_table_size          = 128M' /etc/mysql/mariadb.conf.d/50-server.cnf && \
-            sed -i '\|innodb_file_per_table|a innodb_buffer_pool_size = 256M' /etc/mysql/mariadb.conf.d/50-server.cnf && \
+            sed -i '\|innodb_file_per_table|a max_heap_table_size     = 512M' /etc/mysql/mariadb.conf.d/50-server.cnf && \
+            sed -i '\|innodb_file_per_table|a tmp_table_size          = 512M' /etc/mysql/mariadb.conf.d/50-server.cnf && \
+            sed -i '\|innodb_file_per_table|a innodb_buffer_pool_size = 1536M' /etc/mysql/mariadb.conf.d/50-server.cnf && \
             sed -i 's|syslog.*|# syslog|' /etc/mysql/mariadb.conf.d/50-mysqld_safe.cnf && \
             rm -rf /var/lib/mysql && \
             rm -rf /var/log/mysql && \
