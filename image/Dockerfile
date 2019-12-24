@@ -19,6 +19,7 @@ ENV         DEBIAN_FRONTEND=noninteractive \
             JDBC_JAR_NAME="mysql-connector-java-8.0.18" \
             ARTIFACTORY_DOWNLOAD_URL="https://bintray.com/jfrog/artifactory/download_file?file_path=jfrog-artifactory-oss-6.16.0.zip" \
             ARTIFACTORY_DOWNLOAD_NAME="artifactory-oss-6.16.0" \
+            ACCESS_WAR_NAME="access" \
             ARTIFACTORY_WAR_NAME="artifactory"
 
 COPY        . /tmp
