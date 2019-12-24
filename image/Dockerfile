@@ -50,6 +50,14 @@ RUN         mkdir /artifactory && \
             mkdir /artifactory/backups && \
             chown -R $RUN_USER:$RUN_GROUP /artifactory
 
+# Install Java
+RUN         apt-get update && \
+            apt-get install --assume-yes -t jessie-backports \
+                ca-certificates-java \
+                openjdk-8-jdk-headless \
+                openjdk-8-jre-headless && \
+            apt-get clean
+
 # Install MySQL
 RUN         apt-get update && \
             apt-get install --assume-yes \
