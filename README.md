@@ -47,99 +47,99 @@ To run container next volumes should be mapped:
 5. Proceed to configuration.
 
 ### Configuration
-Create folders for artifactory database:
-```
-sudo mkdir /artifactory
-```
-```
-sudo mkdir /artifactory/db
-```
-```
-sudo mkdir /artifactory/data
-```
-```
-sudo mkdir /artifactory/security
-```
-```
-sudo mkdir /artifactory/access
-```
+1. Create folders for artifactory database:
+    ```
+    sudo mkdir /artifactory
+    ```
+    ```
+    sudo mkdir /artifactory/db
+    ```
+    ```
+    sudo mkdir /artifactory/data
+    ```
+    ```
+    sudo mkdir /artifactory/security
+    ```
+    ```
+    sudo mkdir /artifactory/access
+    ```
 
-Create folder for logs:
-```
-sudo mkdir /var/log/artifactory
-```
+2. Create folder for logs:
+    ```
+    sudo mkdir /var/log/artifactory
+    ```
 
-Create folder for backups:
-```
-sudo mkdir /var/backups/artifactory
-```
+3. Create folder for backups:
+    ```
+    sudo mkdir /var/backups/artifactory
+    ```
 
-Grant permit to all folders:
-```
-sudo chown -R artifactory:artifactory /artifactory
-```
-```
-sudo chown artifactory:artifactory /var/log/artifactory
-```
-```
-sudo chown artifactory:artifactory /var/backups/artifactory
-```
+4. Grant permit to all folders:
+    ```
+    sudo chown -R artifactory:artifactory /artifactory
+    ```
+    ```
+    sudo chown artifactory:artifactory /var/log/artifactory
+    ```
+    ```
+    sudo chown artifactory:artifactory /var/backups/artifactory
+    ```
 
-Copy **etc/init.d/artifactory** to **/etc/init.d** folder:
-```
-sudo cp ./etc/init.d/artifactory /etc/init.d
-```
+5. Copy **etc/init.d/artifactory** to **/etc/init.d** folder:
+    ```
+    sudo cp ./etc/init.d/artifactory /etc/init.d
+    ```
 
-Copy **usr/sbin/artifactory** to **/usr/sbin** folder:
-```
-sudo cp ./usr/sbin/artifactory /usr/sbin
-```
+6. Copy **usr/sbin/artifactory** to **/usr/sbin** folder:
+    ```
+    sudo cp ./usr/sbin/artifactory /usr/sbin
+    ```
 
-Copy **usr/bin/artutil** to **/usr/bin** folder:
-```
-sudo cp ./usr/bin/artutil /usr/bin
-```
+7. Copy **usr/bin/artutil** to **/usr/bin** folder:
+    ```
+    sudo cp ./usr/bin/artutil /usr/bin
+    ```
 
-Make all files executable:
-```
-sudo chmod a+x /etc/init.d/artifactory
-```
-```
-sudo chmod a+x /usr/sbin/artifactory
-```
-```
-sudo chmod a+x /usr/bin/artutil
-```
+8. Make all files executable:
+    ```
+    sudo chmod a+x /etc/init.d/artifactory
+    ```
+    ```
+    sudo chmod a+x /usr/sbin/artifactory
+    ```
+    ```
+    sudo chmod a+x /usr/bin/artutil
+    ```
 
-Register service:
-```
-sudo update-rc.d artifactory defaults
-```
+9. Register service:
+    ```
+    sudo update-rc.d artifactory defaults
+    ```
 
-Specify database root password in **/usr/sbin/artifactory** file:
-```
-docker run ... -e DB_ROOT_PASSWORD="<some_password>" ...
-```
+10. Specify database root password in **/usr/sbin/artifactory** file:
+    ```
+    docker run ... -e DB_ROOT_PASSWORD="<some_password>" ...
+    ```
 
-Specify artifactory database user password in **/usr/sbin/artifactory** file:
-```
-docker run ... -e DB_USER_PASSWORD="<some_password>" ...  
-```
+11. Specify artifactory database user password in **/usr/sbin/artifactory** file:
+    ```
+    docker run ... -e DB_USER_PASSWORD="<some_password>" ...  
+    ```
 
-Start artifactory service:
-```
-sudo service artifactory start
-```
+12. Start artifactory service:
+    ```
+    sudo service artifactory start
+    ```
 
-Initialize artifactory database:
-```
-sudo artutil initialize
-```
+13. Initialize artifactory database:
+    ```
+    sudo artutil initialize
+    ```
 
-Restart artifactory service:
-```
-sudo service artifactory restart
-```
+14. Restart artifactory service:
+    ```
+    sudo service artifactory restart
+    ```
 
 ## Management
 ### Service management
