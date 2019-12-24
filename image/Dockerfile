@@ -86,7 +86,7 @@ RUN         apt-get update && \
             mkdir -p /var/run/mysqld && \
             chown -R $RUN_USER:$RUN_GROUP /var/run/mysqld
 
-# Configure Tomcat
+# Install Tomcat
 RUN         apt-get update && \
             apt-get install --assume-yes \
                 tomcat8 && \
@@ -124,7 +124,7 @@ RUN         apt-get update && \
             ln -s /artifactory/logs /var/log/tomcat8 && \
             chown -h $RUN_USER:$RUN_GROUP /var/log/tomcat8
 
-# Configure artifactory
+# Configure app
 RUN         cd /tmp && \
             wget -O $JDBC_DOWNLOAD_NAME.zip $JDBC_DOWNLOAD_URL && \
             unzip -q $JDBC_DOWNLOAD_NAME.zip -d /tmp && \
