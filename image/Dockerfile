@@ -64,16 +64,21 @@ RUN         apt-get update && \
                 mysql-client \
                 mysql-server && \
             apt-get clean && \
-            sed -i 's|user.*|user            = '"$RUN_USER"'|' /etc/mysql/my.cnf && \
-            sed -i 's|datadir.*|datadir         = /artifactory/db|' /etc/mysql/my.cnf && \
-            sed -i 's|key_buffer.*|key_buffer_size         = 16M|' /etc/mysql/my.cnf && \
-            sed -i 's|max_allowed_packet.*|max_allowed_packet      = 8M|' /etc/mysql/my.cnf && \
-            sed -i 's|myisam-recover.*|myisam-recover-options  = BACKUP|' /etc/mysql/my.cnf && \
-            sed -i 's|log_error.*|log_error                = /var/log/mysql/dberror.log|' /etc/mysql/my.cnf && \
-            sed -i '\|\[mysqld_safe\]|a log_error       = /var/log/mysql/dberror.log' /etc/mysql/my.cnf && \
-            sed -i '\|# Read the manual for more InnoDB related options..*|r /tmp/mysql.conf' /etc/mysql/my.cnf && \
-            rm /tmp/mysql.conf && \
-            sed -i 's|syslog.*|# syslog|' /etc/mysql/conf.d/mysqld_safe_syslog.cnf && \
+            sed -i '\|\[mysqld\]|a ft_min_word_len = 2' /etc/mysql/mariadb.conf.d/50-server.cnf && \
+            sed -i 's|user.*|user            = '"$RUN_USER"'|' /etc/mysql/mariadb.conf.d/50-server.cnf && \
+            sed -i 's|datadir.*|datadir         = /artifactory/db|' /etc/mysql/mariadb.conf.d/50-server.cnf && \
+            sed -i 's|key_buffer.*|key_buffer_size         = 16M|' /etc/mysql/mariadb.conf.d/50-server.cnf && \
+            sed -i 's|max_allowed_packet.*|max_allowed_packet      = 8M|' /etc/mysql/mariadb.conf.d/50-server.cnf && \
+            sed -i 's|myisam-recover.*|myisam-recover-options  = BACKUP|' /etc/mysql/mariadb.conf.d/50-server.cnf && \
+            sed -i 's|log_error.*|log_error                = /var/log/mysql/dberror.log|' /etc/mysql/mariadb.conf.d/50-server.cnf && \
+            sed -i '\|\[mysqld_safe\]|a log_error       = /var/log/mysql/dberror.log' /etc/mysql/mariadb.conf.d/50-server.cnf && \
+            sed -i '\|# Read the manual for more InnoDB related options..*|a innodb_file_per_table' /etc/mysql/mariadb.conf.d/50-server.cnf && \
+            sed -i '\|innodb_file_per_table|a innodb_log_buffer_size  = 4M' /etc/mysql/mariadb.conf.d/50-server.cnf && \
+            sed -i '\|innodb_file_per_table|a innodb_log_file_size    = 256M' /etc/mysql/mariadb.conf.d/50-server.cnf && \
+            sed -i '\|innodb_file_per_table|a max_heap_table_size     = 128M' /etc/mysql/mariadb.conf.d/50-server.cnf && \
+            sed -i '\|innodb_file_per_table|a tmp_table_size          = 128M' /etc/mysql/mariadb.conf.d/50-server.cnf && \
+            sed -i '\|innodb_file_per_table|a innodb_buffer_pool_size = 256M' /etc/mysql/mariadb.conf.d/50-server.cnf && \
+            sed -i 's|syslog.*|# syslog|' /etc/mysql/mariadb.conf.d/50-mysqld_safe.cnf && \
             rm -rf /var/lib/mysql && \
             rm -rf /var/log/mysql && \
             ln -s /artifactory/logs /var/log/mysql && \
