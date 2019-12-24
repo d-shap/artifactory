@@ -19,12 +19,13 @@ ENV         DEBIAN_FRONTEND=noninteractive \
             JDBC_JAR_NAME="mysql-connector-java-8.0.11" \
             ARTIFACTORY_DOWNLOAD_URL="https://bintray.com/jfrog/artifactory/download_file?file_path=jfrog-artifactory-oss-5.3.0.zip" \
             ARTIFACTORY_DOWNLOAD_NAME="artifactory-oss-5.3.0" \
-            ARTIFACTORY_WAR_NAME="artifactory" \
+            ARTIFACTORY_WAR_NAME="artifactory"
 
 COPY        . /tmp
 
 # Install common packages and configure environment
-RUN         apt-get update && \
+RUN         echo "deb http://ftp.debian.org/debian stretch-backports main" >> /etc/apt/sources.list.d/backports.list && \
+            apt-get update && \
             apt-get install --assume-yes \
                 apt-utils \
                 build-essential \
