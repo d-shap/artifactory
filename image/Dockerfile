@@ -23,16 +23,12 @@ ENV         DEBIAN_FRONTEND=noninteractive \
 
 COPY        . /tmp
 
-# Install packages
-RUN         echo "deb http://http.debian.net/debian jessie-backports main" >> /etc/apt/sources.list.d/backports.list && \
-            apt-get update && \
-            apt-get install --assume-yes -t jessie-backports \
-                ca-certificates-java \
-                openjdk-8-jdk-headless \
-                openjdk-8-jre-headless && \
+# Install common packages and configure environment
+RUN         apt-get update && \
             apt-get install --assume-yes \
-                mysql-server \
-                tomcat8 \
+                apt-utils \
+                build-essential \
+                software-properties-common \
                 unzip \
                 vim \
                 wget && \
@@ -42,7 +38,7 @@ RUN         echo "deb http://http.debian.net/debian jessie-backports main" >> /e
 RUN         groupadd -g $hostgid $RUN_GROUP && \
             useradd -u $hostuid -g $hostgid -M $RUN_USER
 
-# Create folders for artifactory
+# Configure application folders
 RUN         mkdir /artifactory && \
             mkdir /artifactory/db && \
             mkdir /artifactory/data && \
