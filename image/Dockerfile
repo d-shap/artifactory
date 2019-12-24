@@ -136,6 +136,9 @@ RUN         cd /tmp && \
             wget -O $ARTIFACTORY_DOWNLOAD_NAME.zip $ARTIFACTORY_DOWNLOAD_URL && \
             unzip -q $ARTIFACTORY_DOWNLOAD_NAME.zip -d /tmp && \
             rm $ARTIFACTORY_DOWNLOAD_NAME.zip && \
+            mkdir $CATALINA_BASE/webapps/access && \
+            unzip -q $ARTIFACTORY_DOWNLOAD_NAME/webapps/$ACCESS_WAR_NAME.war -d $CATALINA_BASE/webapps/access && \
+            chown -R $RUN_USER:$RUN_GROUP $CATALINA_BASE/webapps/access && \
             mkdir $CATALINA_BASE/webapps/artifactory && \
             unzip -q $ARTIFACTORY_DOWNLOAD_NAME/webapps/$ARTIFACTORY_WAR_NAME.war -d $CATALINA_BASE/webapps/artifactory && \
             chown -R $RUN_USER:$RUN_GROUP $CATALINA_BASE/webapps/artifactory && \
