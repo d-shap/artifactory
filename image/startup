@@ -10,4 +10,4 @@ trap /artifactory/scripts/shutdown SIGHUP SIGINT SIGTERM TERM
 
 startMySQLCmd="mysqld"
 startTomcatCmd="$CATALINA_HOME/bin/catalina.sh run"
-$startMySQLCmd & $startTomcatCmd
+$startMySQLCmd & $startTomcatCmd & wait
