@@ -49,8 +49,13 @@ RUN         mkdir /artifactory && \
             mkdir /artifactory/backups && \
             chown -R $RUN_USER:$RUN_GROUP /artifactory
 
-# Configure MySQL
-RUN         sed -i 's|user.*|user            = '"$RUN_USER"'|' /etc/mysql/my.cnf && \
+# Install MySQL
+RUN         apt-get update && \
+            apt-get install --assume-yes \
+                mysql-client \
+                mysql-server && \
+            apt-get clean && \
+            sed -i 's|user.*|user            = '"$RUN_USER"'|' /etc/mysql/my.cnf && \
             sed -i 's|datadir.*|datadir         = /artifactory/db|' /etc/mysql/my.cnf && \
             sed -i 's|key_buffer.*|key_buffer_size         = 16M|' /etc/mysql/my.cnf && \
             sed -i 's|max_allowed_packet.*|max_allowed_packet      = 8M|' /etc/mysql/my.cnf && \
