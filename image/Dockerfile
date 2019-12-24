@@ -82,7 +82,11 @@ RUN         apt-get update && \
             chown -R $RUN_USER:$RUN_GROUP /var/run/mysqld
 
 # Configure Tomcat
-RUN         mkdir -p /etc/tomcat8 && \
+RUN         apt-get update && \
+            apt-get install --assume-yes \
+                tomcat8 && \
+            apt-get clean && \
+            mkdir -p /etc/tomcat8 && \
             chown -R $RUN_USER:$RUN_GROUP /etc/tomcat8 && \
             sed -i 's|port="8080"|port="'"$RUN_PORT"'"|' /etc/tomcat8/server.xml && \
             ln -s /etc/tomcat8 $CATALINA_HOME/conf && \
