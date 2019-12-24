@@ -16,7 +16,7 @@ ENV         DEBIAN_FRONTEND=noninteractive \
             DB_USER_NAME=artifactory \
             JDBC_DOWNLOAD_URL="https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-8.0.18.zip" \
             JDBC_DOWNLOAD_NAME="mysql-connector-java-8.0.18" \
-            JDBC_JAR_NAME="mysql-connector-java-8.0.11" \
+            JDBC_JAR_NAME="mysql-connector-java-8.0.18" \
             ARTIFACTORY_DOWNLOAD_URL="https://bintray.com/jfrog/artifactory/download_file?file_path=jfrog-artifactory-oss-6.16.0.zip" \
             ARTIFACTORY_DOWNLOAD_NAME="artifactory-oss-6.16.0" \
             ARTIFACTORY_WAR_NAME="artifactory"
