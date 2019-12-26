@@ -17,6 +17,7 @@ ENV         DEBIAN_FRONTEND=noninteractive \
             ARTIFACTORY_FOLDER_NAME="artifactory-oss-6.16.0" \
             JDBC_DOWNLOAD_URL="https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-8.0.18.zip" \
             JDBC_DOWNLOAD_NAME="mysql-connector-java-8.0.18" \
+            JDBC_FOLDER_NAME="mysql-connector-java-8.0.18" \
             JDBC_JAR_NAME="mysql-connector-java-8.0.18"
 
 COPY        . /tmp
@@ -95,8 +96,8 @@ RUN         cd /tmp && \
             wget -O $JDBC_DOWNLOAD_NAME.zip $JDBC_DOWNLOAD_URL && \
             unzip -q $JDBC_DOWNLOAD_NAME.zip -d /tmp && \
             rm $JDBC_DOWNLOAD_NAME.zip && \
-            mv $JDBC_DOWNLOAD_NAME/$JDBC_JAR_NAME.jar $ARTIFACTORY_HOME/tomcat/lib && \
-            rm -rf $JDBC_DOWNLOAD_NAME && \
+            mv $JDBC_FOLDER_NAME/$JDBC_JAR_NAME.jar $ARTIFACTORY_HOME/tomcat/lib && \
+            rm -rf $JDBC_FOLDER_NAME && \
             cp $ARTIFACTORY_HOME/misc/db/mysql.properties $ARTIFACTORY_HOME/etc/db.properties && \
             sed -i 's|url=.*|url=jdbc:mysql://localhost:3306/'"$DB_NAME"'?characterEncoding=UTF-8\&elideSetAutoCommitts=true\&serverTimezone=UTC|' $ARTIFACTORY_HOME/etc/db.properties && \
             sed -i 's|username.*|username='"$DB_USER_NAME"'|' $ARTIFACTORY_HOME/etc/db.properties && \
