@@ -42,7 +42,8 @@ RUN         groupadd -g $hostgid $RUN_GROUP && \
 RUN         mkdir /artifactory && \
             mkdir /artifactory/db && \
             mkdir /artifactory/data && \
-            mkdir /artifactory/access && \
+            mkdir /artifactory/accessd && \
+            mkdir /artifactory/accesse && \
             mkdir /artifactory/scripts && \
             mkdir /artifactory/logs && \
             mkdir /artifactory/backups && \
@@ -98,7 +99,12 @@ RUN         cd /tmp && \
             mv $JDBC_FOLDER_NAME/$JDBC_JAR_NAME.jar $ARTIFACTORY_HOME/tomcat/lib && \
             rm -rf $JDBC_FOLDER_NAME && \
             ln -s /artifactory/data $ARTIFACTORY_HOME/data && \
-            ln -s /artifactory/access $ARTIFACTORY_HOME/access && \
+            mkdir $ARTIFACTORY_HOME/access && \
+            ln -s /artifactory/accessd $ARTIFACTORY_HOME/access/data && \
+            ln -s /artifactory/accesse $ARTIFACTORY_HOME/access/etc && \
+            ln -s /artifactory/logs $ARTIFACTORY_HOME/access/logs && \
+            ln -s /artifactory/backups $ARTIFACTORY_HOME/access/backup && \
+            ln -s /tmp $ARTIFACTORY_HOME/access/tmp && \
             rm -rf $ARTIFACTORY_HOME/logs && \
             ln -s /artifactory/logs $ARTIFACTORY_HOME/logs && \
             ln -s /artifactory/backups $ARTIFACTORY_HOME/backup && \
