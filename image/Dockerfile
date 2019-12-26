@@ -9,21 +9,14 @@ ENV         DEBIAN_FRONTEND=noninteractive \
             RUN_GROUP=artifactory \
             RUN_PORT=8006 \
             JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 \
-            CATALINA_HOME=/usr/share/tomcat8 \
-            CATALINA_BASE=/var/lib/tomcat8 \
             ARTIFACTORY_HOME=/etc/artifactory \
             DB_NAME=artdb \
             DB_USER_NAME=artifactory \
             JDBC_DOWNLOAD_URL="https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-8.0.18.zip" \
             JDBC_DOWNLOAD_NAME="mysql-connector-java-8.0.18" \
             JDBC_JAR_NAME="mysql-connector-java-8.0.18" \
-            DERBY_DOWNLOAD_URL="http://apache-mirror.rbc.ru/pub/apache/db/derby/db-derby-10.14.2.0/db-derby-10.14.2.0-lib.tar.gz" \
-            DERBY_DOWNLOAD_NAME="db-derby-10.14.2.0-lib" \
-            DERBY_FOLDER_NAME="db-derby-10.14.2.0-lib" \
             ARTIFACTORY_DOWNLOAD_URL="https://bintray.com/jfrog/artifactory/download_file?file_path=jfrog-artifactory-oss-6.16.0.zip" \
-            ARTIFACTORY_DOWNLOAD_NAME="artifactory-oss-6.16.0" \
-            ACCESS_WAR_NAME="access" \
-            ARTIFACTORY_WAR_NAME="artifactory"
+            ARTIFACTORY_DOWNLOAD_NAME="artifactory-oss-6.16.0"
 
 COPY        . /tmp
 
@@ -90,44 +83,6 @@ RUN         apt-get update && \
             mkdir -p /var/run/mysqld && \
             chown -R $RUN_USER:$RUN_GROUP /var/run/mysqld
 
-# Install Tomcat
-RUN         apt-get update && \
-            apt-get install --assume-yes \
-                tomcat8 && \
-            apt-get clean && \
-            mkdir -p /etc/tomcat8 && \
-            chown -R $RUN_USER:$RUN_GROUP /etc/tomcat8 && \
-            sed -i 's|port="8080"|port="'"$RUN_PORT"'"|' /etc/tomcat8/server.xml && \
-            ln -s /etc/tomcat8 $CATALINA_HOME/conf && \
-            chown -h $RUN_USER:$RUN_GROUP $CATALINA_HOME/conf && \
-            mkdir $CATALINA_HOME/common && \
-            mkdir $CATALINA_HOME/common/classes && \
-            chown -R $RUN_USER:$RUN_GROUP $CATALINA_HOME/common && \
-            mkdir $CATALINA_HOME/server && \
-            mkdir $CATALINA_HOME/server/classes && \
-            chown -R $RUN_USER:$RUN_GROUP $CATALINA_HOME/server && \
-            mkdir $CATALINA_HOME/shared && \
-            mkdir $CATALINA_HOME/shared/classes && \
-            chown -R $RUN_USER:$RUN_GROUP $CATALINA_HOME/shared && \
-            ln -s /artifactory/logs $CATALINA_HOME/logs && \
-            chown -h $RUN_USER:$RUN_GROUP $CATALINA_HOME/logs && \
-            mkdir -p /var/cache/tomcat8 && \
-            chown -R $RUN_USER:$RUN_GROUP /var/cache/tomcat8 && \
-            chown -h $RUN_USER:$RUN_GROUP $CATALINA_BASE/conf && \
-            mkdir -p $CATALINA_BASE/lib && \
-            chown -R $RUN_USER:$RUN_GROUP $CATALINA_BASE/lib && \
-            rm -rf $CATALINA_BASE/logs && \
-            ln -s /artifactory/logs $CATALINA_BASE/logs && \
-            chown -h $RUN_USER:$RUN_GROUP $CATALINA_BASE/logs && \
-            ln -s /tmp $CATALINA_BASE/temp && \
-            chown -h $RUN_USER:$RUN_GROUP $CATALINA_BASE/temp && \
-            mkdir -p $CATALINA_BASE/webapps && \
-            chown -R $RUN_USER:$RUN_GROUP $CATALINA_BASE/webapps && \
-            chown -h $RUN_USER:$RUN_GROUP $CATALINA_BASE/work && \
-            rm -rf /var/log/tomcat8 && \
-            ln -s /artifactory/logs /var/log/tomcat8 && \
-            chown -h $RUN_USER:$RUN_GROUP /var/log/tomcat8
-
 # Configure app
 RUN         cd /tmp && \
             wget -O $JDBC_DOWNLOAD_NAME.zip $JDBC_DOWNLOAD_URL && \
@@ -135,11 +90,6 @@ RUN         cd /tmp && \
             rm $JDBC_DOWNLOAD_NAME.zip && \
             mv $JDBC_DOWNLOAD_NAME/$JDBC_JAR_NAME.jar $CATALINA_BASE/lib && \
             rm -rf $JDBC_DOWNLOAD_NAME && \
-            wget -O $DERBY_DOWNLOAD_NAME.tar.gz $DERBY_DOWNLOAD_URL && \
-            tar xzf $DERBY_DOWNLOAD_NAME.tar.gz -C /tmp && \
-            rm $DERBY_DOWNLOAD_NAME.tar.gz && \
-            mv $DERBY_FOLDER_NAME/lib/*.jar $CATALINA_BASE/lib && \
-            rm -rf mv $DERBY_FOLDER_NAME && \
             chown $RUN_USER:$RUN_GROUP $CATALINA_BASE/lib/*.jar && \
             wget -O $ARTIFACTORY_DOWNLOAD_NAME.zip $ARTIFACTORY_DOWNLOAD_URL && \
             unzip -q $ARTIFACTORY_DOWNLOAD_NAME.zip -d /tmp && \
