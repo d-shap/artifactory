@@ -42,7 +42,6 @@ RUN         groupadd -g $hostgid $RUN_GROUP && \
 RUN         mkdir /artifactory && \
             mkdir /artifactory/db && \
             mkdir /artifactory/data && \
-            mkdir /artifactory/security && \
             mkdir /artifactory/access && \
             mkdir /artifactory/scripts && \
             mkdir /artifactory/logs && \
@@ -98,7 +97,14 @@ RUN         cd /tmp && \
             rm $JDBC_DOWNLOAD_NAME.zip && \
             mv $JDBC_FOLDER_NAME/$JDBC_JAR_NAME.jar $ARTIFACTORY_HOME/tomcat/lib && \
             rm -rf $JDBC_FOLDER_NAME && \
+            ln -s /artifactory/data $ARTIFACTORY_HOME/data && \
+            ln -s /artifactory/access $ARTIFACTORY_HOME/access && \
+            ln -s /artifactory/logs $ARTIFACTORY_HOME/logs && \
+            ln -s /artifactory/backups $ARTIFACTORY_HOME/backup && \
             sed -i 's|port="8081"|port="'"$RUN_PORT"'"|' $ARTIFACTORY_HOME/tomcat/conf/server.xml && \
+            ln -s /artifactory/logs $ARTIFACTORY_HOME/tomcat/logs && \
+            rm -rf $ARTIFACTORY_HOME/tomcat/temp && \
+            ln -s /tmp $ARTIFACTORY_HOME/tomcat/temp && \
             cp $ARTIFACTORY_HOME/misc/db/mysql.properties $ARTIFACTORY_HOME/etc/db.properties && \
             sed -i 's|driver.*|driver=com.mysql.cj.jdbc.Driver|' $ARTIFACTORY_HOME/etc/db.properties && \
             sed -i 's|url=.*|url=jdbc:mysql://localhost:3306/'"$DB_NAME"'?characterEncoding=UTF-8\&elideSetAutoCommitts=true\&serverTimezone=UTC|' $ARTIFACTORY_HOME/etc/db.properties && \
