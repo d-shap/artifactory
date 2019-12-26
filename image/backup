@@ -11,7 +11,7 @@ then
     mv $TEMPDUMPFILE $DUMPFILE
 
     cd /artifactory
-    tar -czf $TEMPTILE $DUMP data accessd accesse
+    tar -czf $TEMPTILE $DUMP data accessd accesse security
     mv $TEMPTILE $FILE
 
     rm $DUMPFILE
