@@ -6,8 +6,8 @@ docker run \
     -v /etc/localtime:/etc/localtime \
     -v /artifactory/db:/artifactory/db \
     -v /artifactory/data:/artifactory/data \
-    -v /artifactory/security:/artifactory/security \
-    -v /artifactory/access:/artifactory/access \
+    -v /artifactory/accessd:/artifactory/accessd \
+    -v /artifactory/accesse:/artifactory/accesse \
     -v /var/log/artifactory:/artifactory/logs \
     -v /var/backups/artifactory:/artifactory/backups \
     -e DB_ROOT_PASSWORD="some_password" \
