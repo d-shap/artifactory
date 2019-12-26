@@ -17,6 +17,9 @@ ENV         DEBIAN_FRONTEND=noninteractive \
             JDBC_DOWNLOAD_URL="https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-8.0.18.zip" \
             JDBC_DOWNLOAD_NAME="mysql-connector-java-8.0.18" \
             JDBC_JAR_NAME="mysql-connector-java-8.0.18" \
+            DERBY_DOWNLOAD_URL="http://apache-mirror.rbc.ru/pub/apache/db/derby/db-derby-10.14.2.0/db-derby-10.14.2.0-lib.tar.gz" \
+            DERBY_DOWNLOAD_NAME="db-derby-10.14.2.0-lib" \
+            DERBY_FOLDER_NAME="db-derby-10.14.2.0-lib" \
             ARTIFACTORY_DOWNLOAD_URL="https://bintray.com/jfrog/artifactory/download_file?file_path=jfrog-artifactory-oss-6.16.0.zip" \
             ARTIFACTORY_DOWNLOAD_NAME="artifactory-oss-6.16.0" \
             ACCESS_WAR_NAME="access" \
@@ -131,8 +134,13 @@ RUN         cd /tmp && \
             unzip -q $JDBC_DOWNLOAD_NAME.zip -d /tmp && \
             rm $JDBC_DOWNLOAD_NAME.zip && \
             mv $JDBC_DOWNLOAD_NAME/$JDBC_JAR_NAME.jar $CATALINA_BASE/lib && \
-            chown $RUN_USER:$RUN_GROUP $CATALINA_BASE/lib/$JDBC_JAR_NAME.jar && \
             rm -rf $JDBC_DOWNLOAD_NAME && \
+            wget -O $DERBY_DOWNLOAD_NAME.tar.gz $DERBY_DOWNLOAD_URL && \
+            tar xzf $DERBY_DOWNLOAD_NAME.tar.gz -C /tmp && \
+            rm $DERBY_DOWNLOAD_NAME.tar.gz && \
+            mv $DERBY_FOLDER_NAME/lib/*.jar $CATALINA_BASE/lib && \
+            rm -rf mv $DERBY_FOLDER_NAME && \
+            chown $RUN_USER:$RUN_GROUP $CATALINA_BASE/lib/*.jar && \
             wget -O $ARTIFACTORY_DOWNLOAD_NAME.zip $ARTIFACTORY_DOWNLOAD_URL && \
             unzip -q $ARTIFACTORY_DOWNLOAD_NAME.zip -d /tmp && \
             rm $ARTIFACTORY_DOWNLOAD_NAME.zip && \
