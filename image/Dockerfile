@@ -99,6 +99,7 @@ RUN         cd /tmp && \
             rm -rf $JDBC_FOLDER_NAME && \
             ln -s /artifactory/data $ARTIFACTORY_HOME/data && \
             ln -s /artifactory/access $ARTIFACTORY_HOME/access && \
+            rm -rf $ARTIFACTORY_HOME/logs && \
             ln -s /artifactory/logs $ARTIFACTORY_HOME/logs && \
             ln -s /artifactory/backups $ARTIFACTORY_HOME/backup && \
             sed -i 's|port="8081"|port="'"$RUN_PORT"'"|' $ARTIFACTORY_HOME/tomcat/conf/server.xml && \
