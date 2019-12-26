@@ -186,17 +186,25 @@ In this case apache server can be used to redirect requests to different docker 
     </VirtualHost>
     ```
 
-3. Copy **./etc/apache2/sites-available/artifactory.conf** to **/etc/apache2/sites-available** folder:
+3. Copy **./etc/apache2/sites-available/access.conf** to **/etc/apache2/sites-available** folder:
+    ```
+    sudo cp ./etc/apache2/sites-available/access.conf /etc/apache2/sites-available
+    ```
+
+4. Copy **./etc/apache2/sites-available/artifactory.conf** to **/etc/apache2/sites-available** folder:
     ```
     sudo cp ./etc/apache2/sites-available/artifactory.conf /etc/apache2/sites-available
     ```
 
-4. Enable apache artifactory site:
+5. Enable apache artifactory sites:
+    ```
+    sudo a2ensite access
+    ```
     ```
     sudo a2ensite artifactory
     ```
 
-5. Restart apache service:
+6. Restart apache service:
     ```
     sudo service apache2 restart
     ```
