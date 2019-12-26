@@ -211,46 +211,46 @@ In this case apache server can be used to redirect requests to different docker 
 
 ## HOW TO
 ### How to change database root password
-Stop artifactory service:
-```
-sudo service artifactory stop
-```
+1. Stop artifactory service:
+    ```
+    sudo service artifactory stop
+    ```
 
-Specify new database root password in **/usr/sbin/artifactory** file:
-```
-docker run ... -e DB_ROOT_PASSWORD="<new_password>" ...
-```
+2. Specify new database root password in **/usr/sbin/artifactory** file:
+    ```
+    docker run ... -e DB_ROOT_PASSWORD="<new_password>" ...
+    ```
 
-Start artifactory service:
-```
-sudo service artifactory start
-```
+3. Start artifactory service:
+    ```
+    sudo service artifactory start
+    ```
 
-Run the following command:
-```
-sudo artutil changeRootPassword "<old_password>"
-```
+4. Run the following command:
+    ```
+    sudo artutil changeRootPassword "<old_password>"
+    ```
 
 ### How to change artifactory database user password
-Stop artifactory service:
-```
-sudo service artifactory stop
-```
+1. Stop artifactory service:
+    ```
+    sudo service artifactory stop
+    ```
 
-Specify new artifactory database user password in **/usr/sbin/artifactory** file:
-```
-docker run ... -e DB_USER_PASSWORD="<new_password>" ...  
-```
+2. Specify new artifactory database user password in **/usr/sbin/artifactory** file:
+    ```
+    docker run ... -e DB_USER_PASSWORD="<new_password>" ...  
+    ```
 
-Start artifactory service:
-```
-sudo service artifactory start
-```
+3. Start artifactory service:
+    ```
+    sudo service artifactory start
+    ```
 
-Run the following command
-```
-sudo artutil changeUserPassword
-```
+4. Run the following command
+    ```
+    sudo artutil changeUserPassword
+    ```
 
 ### How to specify special characters in password
 Special characters should be escaped:
