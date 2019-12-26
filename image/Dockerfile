@@ -88,22 +88,31 @@ RUN         apt-get update && \
 
 # Configure app
 RUN         cd /tmp && \
-            wget -O $JDBC_DOWNLOAD_NAME.zip $JDBC_DOWNLOAD_URL && \
-            unzip -q $JDBC_DOWNLOAD_NAME.zip -d /tmp && \
-            rm $JDBC_DOWNLOAD_NAME.zip && \
-            mv $JDBC_DOWNLOAD_NAME/$JDBC_JAR_NAME.jar $CATALINA_BASE/lib && \
-            rm -rf $JDBC_DOWNLOAD_NAME && \
-            chown $RUN_USER:$RUN_GROUP $CATALINA_BASE/lib/*.jar && \
+            mkdir $ARTIFACTORY_HOME && \
             wget -O $ARTIFACTORY_DOWNLOAD_NAME.zip $ARTIFACTORY_DOWNLOAD_URL && \
             unzip -q $ARTIFACTORY_DOWNLOAD_NAME.zip -d /tmp && \
             rm $ARTIFACTORY_DOWNLOAD_NAME.zip && \
+            mv $ARTIFACTORY_FOLDER_NAME/* $ARTIFACTORY_HOME && \
+            rm -rf $ARTIFACTORY_FOLDER_NAME && \
+            wget -O $JDBC_DOWNLOAD_NAME.zip $JDBC_DOWNLOAD_URL && \
+            unzip -q $JDBC_DOWNLOAD_NAME.zip -d /tmp && \
+            rm $JDBC_DOWNLOAD_NAME.zip && \
+            mv $JDBC_DOWNLOAD_NAME/$JDBC_JAR_NAME.jar $ARTIFACTORY_HOME/tomcat/lib && \
+            rm -rf $JDBC_DOWNLOAD_NAME && \
+            unzip -q $ARTIFACTORY_HOME/webapps/$ACCESS_WAR_NAME.war -d $ARTIFACTORY_HOME/webapps/$ACCESS_WAR_NAME && \
+            rm $ARTIFACTORY_HOME/webapps/$ACCESS_WAR_NAME.war && \
+            unzip -q $ARTIFACTORY_HOME/webapps/$ARTIFACTORY_WAR_NAME.war -d $ARTIFACTORY_HOME/webapps/$ARTIFACTORY_WAR_NAME && \
+            rm $ARTIFACTORY_HOME/webapps/$ARTIFACTORY_WAR_NAME.war && \
+
+            chown -R $RUN_USER:$RUN_GROUP $ARTIFACTORY_HOME && \
+
+
             mkdir $CATALINA_BASE/webapps/access && \
             unzip -q $ARTIFACTORY_DOWNLOAD_NAME/webapps/$ACCESS_WAR_NAME.war -d $CATALINA_BASE/webapps/access && \
             chown -R $RUN_USER:$RUN_GROUP $CATALINA_BASE/webapps/access && \
             mkdir $CATALINA_BASE/webapps/artifactory && \
             unzip -q $ARTIFACTORY_DOWNLOAD_NAME/webapps/$ARTIFACTORY_WAR_NAME.war -d $CATALINA_BASE/webapps/artifactory && \
             chown -R $RUN_USER:$RUN_GROUP $CATALINA_BASE/webapps/artifactory && \
-            mkdir $ARTIFACTORY_HOME && \
             mv $ARTIFACTORY_DOWNLOAD_NAME/etc $ARTIFACTORY_HOME && \
             mv $ARTIFACTORY_DOWNLOAD_NAME/misc $ARTIFACTORY_HOME && \
             rm -rf $ARTIFACTORY_DOWNLOAD_NAME && \
