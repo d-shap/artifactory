@@ -98,6 +98,7 @@ RUN         cd /tmp && \
             rm $JDBC_DOWNLOAD_NAME.zip && \
             mv $JDBC_FOLDER_NAME/$JDBC_JAR_NAME.jar $ARTIFACTORY_HOME/tomcat/lib && \
             rm -rf $JDBC_FOLDER_NAME && \
+            sed -i 's|port="8081"|port="'"$RUN_PORT"'"|' $ARTIFACTORY_HOME/tomcat/conf/server.xml && \
             cp $ARTIFACTORY_HOME/misc/db/mysql.properties $ARTIFACTORY_HOME/etc/db.properties && \
             sed -i 's|driver.*|driver=com.mysql.cj.jdbc.Driver|' $ARTIFACTORY_HOME/etc/db.properties && \
             sed -i 's|url=.*|url=jdbc:mysql://localhost:3306/'"$DB_NAME"'?characterEncoding=UTF-8\&elideSetAutoCommitts=true\&serverTimezone=UTC|' $ARTIFACTORY_HOME/etc/db.properties && \
