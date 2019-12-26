@@ -138,7 +138,7 @@ To run container next volumes should be mapped:
     sudo artutil initialize
     ```
 
-14. Restart artifactory service:
+14. Wait for some time, if artifactory is not loaded, then restart artifactory service:
     ```
     sudo service artifactory restart
     ```
