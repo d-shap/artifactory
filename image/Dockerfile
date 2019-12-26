@@ -44,6 +44,7 @@ RUN         mkdir /artifactory && \
             mkdir /artifactory/data && \
             mkdir /artifactory/accessd && \
             mkdir /artifactory/accesse && \
+            mkdir /artifactory/security && \
             mkdir /artifactory/scripts && \
             mkdir /artifactory/logs && \
             mkdir /artifactory/backups && \
@@ -98,17 +99,23 @@ RUN         cd /tmp && \
             rm $JDBC_DOWNLOAD_NAME.zip && \
             mv $JDBC_FOLDER_NAME/$JDBC_JAR_NAME.jar $ARTIFACTORY_HOME/tomcat/lib && \
             rm -rf $JDBC_FOLDER_NAME && \
+            rm -rf $ARTIFACTORY_HOME/data && \
             ln -s /artifactory/data $ARTIFACTORY_HOME/data && \
+            rm -rf $ARTIFACTORY_HOME/access && \
             mkdir $ARTIFACTORY_HOME/access && \
             ln -s /artifactory/accessd $ARTIFACTORY_HOME/access/data && \
             ln -s /artifactory/accesse $ARTIFACTORY_HOME/access/etc && \
             ln -s /artifactory/logs $ARTIFACTORY_HOME/access/logs && \
             ln -s /artifactory/backups $ARTIFACTORY_HOME/access/backup && \
             ln -s /tmp $ARTIFACTORY_HOME/access/tmp && \
+            rm -rf $ARTIFACTORY_HOME/etc/security && \
+            ln -s /artifactory/security $ARTIFACTORY_HOME/etc/security && \
             rm -rf $ARTIFACTORY_HOME/logs && \
             ln -s /artifactory/logs $ARTIFACTORY_HOME/logs && \
+            rm -rf $ARTIFACTORY_HOME/backup && \
             ln -s /artifactory/backups $ARTIFACTORY_HOME/backup && \
             sed -i 's|port="8081"|port="'"$RUN_PORT"'"|' $ARTIFACTORY_HOME/tomcat/conf/server.xml && \
+            rm -rf $ARTIFACTORY_HOME/tomcat/logs && \
             ln -s /artifactory/logs $ARTIFACTORY_HOME/tomcat/logs && \
             rm -rf $ARTIFACTORY_HOME/tomcat/temp && \
             ln -s /tmp $ARTIFACTORY_HOME/tomcat/temp && \
