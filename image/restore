@@ -8,7 +8,7 @@ then
     if [ -e "$FILE" ];
     then
         cd /artifactory
-        tar -xzf $FILE $DUMP data security access
+        tar -xzf $FILE $DUMP data accessd accesse
 
         mysql --user="$DB_USER_NAME" --password="$DB_USER_PASSWORD" "$DB_NAME" < $DUMPFILE
 
