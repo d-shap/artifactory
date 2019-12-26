@@ -7,8 +7,7 @@ This user owns artifactory process and owns artifactory database.
 To run container next volumes should be mapped:
 * folder for SQL database
 * folder for artifactory data
-* folder for artifactory encryption keys
-* folder for artifactory access home
+* folder for artifactory security data
 * log folder
 * backup folder
 
@@ -58,10 +57,10 @@ To run container next volumes should be mapped:
     sudo mkdir /artifactory/data
     ```
     ```
-    sudo mkdir /artifactory/security
+    sudo mkdir /artifactory/accessd
     ```
     ```
-    sudo mkdir /artifactory/access
+    sudo mkdir /artifactory/accesse
     ```
 
 2. Create folder for logs:
