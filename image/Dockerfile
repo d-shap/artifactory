@@ -103,30 +103,10 @@ RUN         cd /tmp && \
             rm $ARTIFACTORY_HOME/webapps/$ACCESS_WAR_NAME.war && \
             unzip -q $ARTIFACTORY_HOME/webapps/$ARTIFACTORY_WAR_NAME.war -d $ARTIFACTORY_HOME/webapps/$ARTIFACTORY_WAR_NAME && \
             rm $ARTIFACTORY_HOME/webapps/$ARTIFACTORY_WAR_NAME.war && \
-
-            chown -R $RUN_USER:$RUN_GROUP $ARTIFACTORY_HOME && \
-
-
-            mkdir $CATALINA_BASE/webapps/access && \
-            unzip -q $ARTIFACTORY_DOWNLOAD_NAME/webapps/$ACCESS_WAR_NAME.war -d $CATALINA_BASE/webapps/access && \
-            chown -R $RUN_USER:$RUN_GROUP $CATALINA_BASE/webapps/access && \
-            mkdir $CATALINA_BASE/webapps/artifactory && \
-            unzip -q $ARTIFACTORY_DOWNLOAD_NAME/webapps/$ARTIFACTORY_WAR_NAME.war -d $CATALINA_BASE/webapps/artifactory && \
-            chown -R $RUN_USER:$RUN_GROUP $CATALINA_BASE/webapps/artifactory && \
-            mv $ARTIFACTORY_DOWNLOAD_NAME/etc $ARTIFACTORY_HOME && \
-            mv $ARTIFACTORY_DOWNLOAD_NAME/misc $ARTIFACTORY_HOME && \
-            rm -rf $ARTIFACTORY_DOWNLOAD_NAME && \
-            mkdir $ARTIFACTORY_HOME/etc/plugins && \
-            mkdir $ARTIFACTORY_HOME/etc/ui && \
-            ln -s /artifactory/access $ARTIFACTORY_HOME/access && \
-            ln -s /artifactory/data $ARTIFACTORY_HOME/data && \
-            ln -s /artifactory/security $ARTIFACTORY_HOME/etc/security && \
-            ln -s /artifactory/logs $ARTIFACTORY_HOME/logs && \
-            ln -s /artifactory/backups $ARTIFACTORY_HOME/backup && \
-            chown -R -h $RUN_USER:$RUN_GROUP $ARTIFACTORY_HOME && \
             cp $ARTIFACTORY_HOME/misc/db/mysql.properties $ARTIFACTORY_HOME/etc/db.properties && \
             sed -i 's|url=.*|url=jdbc:mysql://localhost:3306/'"$DB_NAME"'?characterEncoding=UTF-8\&elideSetAutoCommitts=true\&serverTimezone=UTC|' $ARTIFACTORY_HOME/etc/db.properties && \
-            sed -i 's|username.*|username='"$DB_USER_NAME"'|' $ARTIFACTORY_HOME/etc/db.properties
+            sed -i 's|username.*|username='"$DB_USER_NAME"'|' $ARTIFACTORY_HOME/etc/db.properties && \
+            chown -R -h $RUN_USER:$RUN_GROUP $ARTIFACTORY_HOME
 
 # Configure helper scripts
 RUN         mv /tmp/startup /artifactory/scripts && \
