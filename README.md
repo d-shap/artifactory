@@ -201,10 +201,7 @@ In this case apache server can be used to redirect requests to different docker 
 
 5. Enable apache artifactory sites:
     ```
-    sudo a2ensite access
-    ```
-    ```
-    sudo a2ensite artifactory
+    sudo a2ensite access artifactory
     ```
 
 6. Restart apache service:
