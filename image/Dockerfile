@@ -61,8 +61,8 @@ RUN         apt-get update && \
 # Install MySQL
 RUN         apt-get update && \
             apt-get install --assume-yes \
-                mysql-client \
-                mysql-server && \
+                default-mysql-client \
+                default-mysql-server && \
             apt-get clean && \
             sed -i '\|\[mysqld\]|a ft_min_word_len = 2' /etc/mysql/mariadb.conf.d/50-server.cnf && \
             sed -i 's|user.*|user            = '"$RUN_USER"'|' /etc/mysql/mariadb.conf.d/50-server.cnf && \
