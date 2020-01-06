@@ -23,7 +23,7 @@ ENV         DEBIAN_FRONTEND=noninteractive \
 COPY        . /tmp
 
 # Install common packages and configure environment
-RUN         echo "deb http://ftp.debian.org/debian stretch-backports main" >> /etc/apt/sources.list.d/backports.list && \
+RUN         echo "deb http://ftp.debian.org/debian buster-backports main" >> /etc/apt/sources.list.d/backports.list && \
             apt-get update && \
             apt-get install --assume-yes \
                 apt-utils \
@@ -52,7 +52,7 @@ RUN         mkdir /artifactory && \
 
 # Install Java
 RUN         apt-get update && \
-            apt-get install --assume-yes -t stretch-backports \
+            apt-get install --assume-yes -t buster-backports \
                 ca-certificates-java \
                 openjdk-8-jdk-headless \
                 openjdk-8-jre-headless && \
