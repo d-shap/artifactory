@@ -54,8 +54,8 @@ RUN         mkdir /artifactory && \
 RUN         apt-get update && \
             apt-get install --assume-yes -t buster-backports \
                 ca-certificates-java \
-                openjdk-8-jdk-headless \
-                openjdk-8-jre-headless && \
+                openjdk-11-jdk-headless \
+                openjdk-11-jre-headless && \
             apt-get clean
 
 # Install MySQL
