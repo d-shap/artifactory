@@ -8,7 +8,7 @@ To run container next volumes should be mapped:
 * folder for SQL database
 * folder for artifactory files
 * folders for security and access files
-* log folder
+* logs folder
 * backups folder
 
 ## Installation
