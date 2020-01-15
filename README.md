@@ -2,12 +2,12 @@
 Docker image for artifactory web server.
 
 Container runs as non-root user.
-This user owns artifactory process and owns artifactory database.
+This user owns artifactory process and owns artifactory files.
 
 To run container next volumes should be mapped:
 * folder for SQL database
-* folder for artifactory data
-* folders for security and access data
+* folder for artifactory files
+* folders for security and access files
 * log folder
 * backup folder
 
