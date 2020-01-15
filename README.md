@@ -9,7 +9,7 @@ To run container next volumes should be mapped:
 * folder for artifactory files
 * folders for security and access files
 * log folder
-* backup folder
+* backups folder
 
 ## Installation
 ### Installation from docker image
