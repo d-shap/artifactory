@@ -14,7 +14,6 @@ To run container next volumes should be mapped:
 ## Installation
 ### Installation from docker image
 1. Pull docker image.
-
 2. Create user and group to own artifactory files and to run docker container:
     ```
     sudo groupadd -g 966 artifactory
@@ -22,27 +21,22 @@ To run container next volumes should be mapped:
     ```
     useradd -u 966 -g 966 -M artifactory
     ```
-
 3. Proceed to configuration.
 
 ### Installation from source
 1. Pull project sources from version control system.
-
 2. Create user and group to own artifactory files and to run docker container:
     ```
     sudo useradd -r artifactory
     ```
-
 3. Make **build** executable:
     ```
     sudo chmod u+x ./build
     ```
-
 4. Execute **build**:
     ```
     sudo ./build artifactory
     ```
-
 5. Proceed to configuration.
 
 ### Configuration
@@ -65,17 +59,14 @@ To run container next volumes should be mapped:
     ```
     sudo mkdir /artifactory/security
     ```
-
 2. Create folder for logs:
     ```
     sudo mkdir /var/log/artifactory
     ```
-
 3. Create folder for backups:
     ```
     sudo mkdir /var/backups/artifactory
     ```
-
 4. Grant permit to all folders:
     ```
     sudo chown -R artifactory:artifactory /artifactory
@@ -86,22 +77,18 @@ To run container next volumes should be mapped:
     ```
     sudo chown artifactory:artifactory /var/backups/artifactory
     ```
-
 5. Copy **etc/init.d/artifactory** to **/etc/init.d** folder:
     ```
     sudo cp ./etc/init.d/artifactory /etc/init.d
     ```
-
 6. Copy **usr/sbin/artifactory** to **/usr/sbin** folder:
     ```
     sudo cp ./usr/sbin/artifactory /usr/sbin
     ```
-
 7. Copy **usr/bin/artutil** to **/usr/bin** folder:
     ```
     sudo cp ./usr/bin/artutil /usr/bin
     ```
-
 8. Make all files executable:
     ```
     sudo chmod a+x /etc/init.d/artifactory
@@ -112,32 +99,26 @@ To run container next volumes should be mapped:
     ```
     sudo chmod a+x /usr/bin/artutil
     ```
-
 9. Register service:
     ```
     sudo update-rc.d artifactory defaults
     ```
-
 10. Specify database root password in **/usr/sbin/artifactory** file:
     ```
     docker run ... -e DB_ROOT_PASSWORD="<some_password>" ...
     ```
-
 11. Specify artifactory database user password in **/usr/sbin/artifactory** file:
     ```
     docker run ... -e DB_USER_PASSWORD="<some_password>" ...  
     ```
-
 12. Start artifactory service:
     ```
     sudo service artifactory start
     ```
-
 13. Initialize artifactory database:
     ```
     sudo artutil initialize
     ```
-
 14. Wait for some time, if artifactory is not loaded, then restart artifactory service:
     ```
     sudo service artifactory restart
@@ -175,7 +156,6 @@ In this case apache server can be used to redirect requests to different docker 
     ```
     sudo a2enmod deflate headers proxy proxy_ajp proxy_balancer proxy_connect proxy_html proxy_http rewrite
     ```
-
 2. Configure proxy:
     ```
     <VirtualHost *:80>
@@ -188,22 +168,18 @@ In this case apache server can be used to redirect requests to different docker 
         ...
     </VirtualHost>
     ```
-
 3. Copy **./etc/apache2/sites-available/access.conf** to **/etc/apache2/sites-available** folder:
     ```
     sudo cp ./etc/apache2/sites-available/access.conf /etc/apache2/sites-available
     ```
-
 4. Copy **./etc/apache2/sites-available/artifactory.conf** to **/etc/apache2/sites-available** folder:
     ```
     sudo cp ./etc/apache2/sites-available/artifactory.conf /etc/apache2/sites-available
     ```
-
 5. Enable apache sites:
     ```
     sudo a2ensite access artifactory
     ```
-
 6. Restart apache service:
     ```
     sudo service apache2 restart
@@ -215,17 +191,14 @@ In this case apache server can be used to redirect requests to different docker 
     ```
     sudo service artifactory stop
     ```
-
 2. Specify new database root password in **/usr/sbin/artifactory** file:
     ```
     docker run ... -e DB_ROOT_PASSWORD="<new_password>" ...
     ```
-
 3. Start artifactory service:
     ```
     sudo service artifactory start
     ```
-
 4. Run the following command:
     ```
     sudo artutil changeRootPassword "<old_password>"
@@ -236,17 +209,14 @@ In this case apache server can be used to redirect requests to different docker 
     ```
     sudo service artifactory stop
     ```
-
 2. Specify new artifactory database user password in **/usr/sbin/artifactory** file:
     ```
     docker run ... -e DB_USER_PASSWORD="<new_password>" ...  
     ```
-
 3. Start artifactory service:
     ```
     sudo service artifactory start
     ```
-
 4. Run the following command
     ```
     sudo artutil changeUserPassword
