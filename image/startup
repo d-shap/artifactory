@@ -4,10 +4,10 @@ then
     mysql_install_db
 fi
 
-sed -i 's|password.*|password='"$DB_USER_PASSWORD"'|' $ARTIFACTORY_HOME/etc/db.properties
+sed -i 's|\(\s*\)#password: .*|\1password: '"$DB_USER_PASSWORD"'|' $ARTIFACTORY_HOME/var/etc/system.yaml
 
 trap /artifactory/scripts/shutdown SIGHUP SIGINT SIGTERM TERM
 
 startMySQLCmd="mysqld"
-startTomcatCmd="$ARTIFACTORY_HOME/bin/artifactoryctl start"
-$startMySQLCmd & $startTomcatCmd & wait
+startArtifactoryCmd="$ARTIFACTORY_HOME/app/bin/artifactoryctl start"
+$startMySQLCmd & $startArtifactoryCmd & wait

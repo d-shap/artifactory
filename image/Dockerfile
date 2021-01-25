@@ -7,18 +7,28 @@ ARG         hostgid=966
 ENV         DEBIAN_FRONTEND=noninteractive \
             RUN_USER=artifactory \
             RUN_GROUP=artifactory \
-            RUN_PORT=8006 \
-            JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64 \
-            ARTIFACTORY_HOME=/etc/artifactory \
+            RUN_ARTIFACTORY_PORT=8051 \
+            RUN_TOMCAT_MAINTENANCE_PORT=8052 \
+            RUN_ACCESS_HTTP_PORT=8053 \
+            RUN_ACCESS_GRPC_PORT=8054 \
+            RUN_FRONTEND_PORT=8055 \
+            RUN_METADATA_PORT=8056 \
+            RUN_ROUTER_INTERNAL_PORT=8057 \
+            RUN_ROUTER_EXTERNAL_PORT=8058 \
+            RUN_ROUTER_TRAEFIC_PORT=8059 \
+            RUN_ROUTER_GRPC_PORT=8060 \
+            RUN_EVENT_PORT=8061 \
+            JFROG_HOME=/jfrog \
+            ARTIFACTORY_HOME=/jfrog/artifactory \
             DB_NAME=artdb \
             DB_USER_NAME=artifactory \
-            ARTIFACTORY_DOWNLOAD_URL="https://bintray.com/jfrog/artifactory/download_file?file_path=jfrog-artifactory-oss-6.23.7.zip" \
-            ARTIFACTORY_DOWNLOAD_NAME="artifactory-oss-6.23.7" \
-            ARTIFACTORY_FOLDER_NAME="artifactory-oss-6.23.7" \
-            JDBC_DOWNLOAD_URL="https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-8.0.22.zip" \
-            JDBC_DOWNLOAD_NAME="mysql-connector-java-8.0.22" \
+            ARTIFACTORY_DOWNLOAD_URL="https://bintray.com/jfrog/artifactory/download_file?file_path=org/artifactory/oss/jfrog-artifactory-oss/7.12.6/jfrog-artifactory-oss-7.12.6-linux.tar.gz" \
+            ARTIFACTORY_DOWNLOAD_NAME="artifactory-oss-7.12.6.tar.gz" \
+            ARTIFACTORY_FOLDER_NAME="artifactory-oss-7.12.6" \
+            JDBC_DOWNLOAD_URL="https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-8.0.22.tar.gz" \
+            JDBC_DOWNLOAD_NAME="mysql-connector-java-8.0.22.tar.gz" \
             JDBC_FOLDER_NAME="mysql-connector-java-8.0.22" \
-            JDBC_JAR_NAME="mysql-connector-java-8.0.22"
+            JDBC_JAR_NAME="mysql-connector-java-8.0.22.jar"
 
 COPY        . /tmp
 
@@ -28,8 +38,10 @@ RUN         echo "deb http://ftp.debian.org/debian buster-backports main" >> /et
             apt-get install --assume-yes \
                 apt-utils \
                 build-essential \
+                cron \
+                net-tools \
+                procps \
                 software-properties-common \
-                unzip \
                 vim \
                 wget && \
             apt-get clean
@@ -42,21 +54,11 @@ RUN         groupadd -g $hostgid $RUN_GROUP && \
 RUN         mkdir /artifactory && \
             mkdir /artifactory/db && \
             mkdir /artifactory/data && \
-            mkdir /artifactory/accessd && \
-            mkdir /artifactory/accesse && \
             mkdir /artifactory/security && \
             mkdir /artifactory/scripts && \
             mkdir /artifactory/logs && \
             mkdir /artifactory/backups && \
             chown -R $RUN_USER:$RUN_GROUP /artifactory
-
-# Install Java
-RUN         apt-get update && \
-            apt-get install --assume-yes -t buster-backports \
-                ca-certificates-java \
-                openjdk-11-jdk-headless \
-                openjdk-11-jre-headless && \
-            apt-get clean
 
 # Install MySQL
 RUN         apt-get update && \
@@ -88,42 +90,62 @@ RUN         apt-get update && \
 
 # Configure app
 RUN         cd /tmp && \
-            mkdir $ARTIFACTORY_HOME && \
-            wget -O $ARTIFACTORY_DOWNLOAD_NAME.zip $ARTIFACTORY_DOWNLOAD_URL && \
-            unzip -q $ARTIFACTORY_DOWNLOAD_NAME.zip -d /tmp && \
-            rm $ARTIFACTORY_DOWNLOAD_NAME.zip && \
-            mv $ARTIFACTORY_FOLDER_NAME/* $ARTIFACTORY_HOME && \
-            rm -rf $ARTIFACTORY_FOLDER_NAME && \
-            wget -O $JDBC_DOWNLOAD_NAME.zip $JDBC_DOWNLOAD_URL && \
-            unzip -q $JDBC_DOWNLOAD_NAME.zip -d /tmp && \
-            rm $JDBC_DOWNLOAD_NAME.zip && \
-            mv $JDBC_FOLDER_NAME/$JDBC_JAR_NAME.jar $ARTIFACTORY_HOME/tomcat/lib && \
+            mkdir $JFROG_HOME && \
+            wget -O $ARTIFACTORY_DOWNLOAD_NAME $ARTIFACTORY_DOWNLOAD_URL && \
+            tar -C /tmp -xzf $ARTIFACTORY_DOWNLOAD_NAME && \
+            rm $ARTIFACTORY_DOWNLOAD_NAME && \
+            mv $ARTIFACTORY_FOLDER_NAME $ARTIFACTORY_HOME && \
+            wget -O $JDBC_DOWNLOAD_NAME $JDBC_DOWNLOAD_URL && \
+            tar -C /tmp -xzf $JDBC_DOWNLOAD_NAME && \
+            rm $JDBC_DOWNLOAD_NAME && \
+            mv $JDBC_FOLDER_NAME/$JDBC_JAR_NAME $ARTIFACTORY_HOME/var/bootstrap/artifactory/tomcat/lib && \
             rm -rf $JDBC_FOLDER_NAME && \
-            rm -rf $ARTIFACTORY_HOME/data && \
-            ln -s /artifactory/data $ARTIFACTORY_HOME/data && \
-            rm -rf $ARTIFACTORY_HOME/access && \
-            mkdir $ARTIFACTORY_HOME/access && \
-            ln -s /artifactory/accessd $ARTIFACTORY_HOME/access/data && \
-            ln -s /artifactory/accesse $ARTIFACTORY_HOME/access/etc && \
-            ln -s /artifactory/logs $ARTIFACTORY_HOME/access/logs && \
-            ln -s /artifactory/backups $ARTIFACTORY_HOME/access/backup && \
-            ln -s /tmp $ARTIFACTORY_HOME/access/tmp && \
-            rm -rf $ARTIFACTORY_HOME/etc/security && \
-            ln -s /artifactory/security $ARTIFACTORY_HOME/etc/security && \
-            rm -rf $ARTIFACTORY_HOME/logs && \
-            ln -s /artifactory/logs $ARTIFACTORY_HOME/logs && \
-            rm -rf $ARTIFACTORY_HOME/backup && \
-            ln -s /artifactory/backups $ARTIFACTORY_HOME/backup && \
-            sed -i 's|port="8081"|port="'"$RUN_PORT"'"|' $ARTIFACTORY_HOME/tomcat/conf/server.xml && \
-            rm -rf $ARTIFACTORY_HOME/tomcat/logs && \
-            ln -s /artifactory/logs $ARTIFACTORY_HOME/tomcat/logs && \
-            rm -rf $ARTIFACTORY_HOME/tomcat/temp && \
-            ln -s /tmp $ARTIFACTORY_HOME/tomcat/temp && \
-            cp $ARTIFACTORY_HOME/misc/db/mysql.properties $ARTIFACTORY_HOME/etc/db.properties && \
-            sed -i 's|driver.*|driver=com.mysql.cj.jdbc.Driver|' $ARTIFACTORY_HOME/etc/db.properties && \
-            sed -i 's|url=.*|url=jdbc:mysql://localhost:3306/'"$DB_NAME"'?characterEncoding=UTF-8\&elideSetAutoCommitts=true\&serverTimezone=UTC|' $ARTIFACTORY_HOME/etc/db.properties && \
-            sed -i 's|username.*|username='"$DB_USER_NAME"'|' $ARTIFACTORY_HOME/etc/db.properties && \
-            chown -R -h $RUN_USER:$RUN_GROUP $ARTIFACTORY_HOME
+            rm -rf $ARTIFACTORY_HOME/var/data && \
+            ln -s /artifactory/data $ARTIFACTORY_HOME/var/data && \
+            rm -rf $ARTIFACTORY_HOME/var/etc/security && \
+            ln -s /artifactory/security $ARTIFACTORY_HOME/var/etc/security && \
+            rm -rf $ARTIFACTORY_HOME/var/log && \
+            ln -s /artifactory/logs $ARTIFACTORY_HOME/var/log && \
+            rm -rf $ARTIFACTORY_HOME/var/backup && \
+            ln -s /artifactory/backups $ARTIFACTORY_HOME/var/backup && \
+            rm -rf $ARTIFACTORY_HOME/app/artifactory/tomcat/logs && \
+            ln -s /artifactory/logs $ARTIFACTORY_HOME/app/artifactory/tomcat/logs && \
+            cp $ARTIFACTORY_HOME/var/etc/system.basic-template.yaml $ARTIFACTORY_HOME/var/etc/system.yaml && \
+            sed -i 's|\(\s*\)#javaHome: .*|\1javaHome: "'"$ARTIFACTORY_HOME"'/app/third-party/java"|' $ARTIFACTORY_HOME/var/etc/system.yaml && \
+            sed -i 's|\(\s*\)#joinKeyFile: .*|\1joinKeyFile: "'"$ARTIFACTORY_HOME"'/var/etc/security/join.key"|' $ARTIFACTORY_HOME/var/etc/system.yaml && \
+            sed -i 's|\(\s*\)#masterKeyFile: .*|\1masterKeyFile: "'"$ARTIFACTORY_HOME"'/var/etc/security/master.key"|' $ARTIFACTORY_HOME/var/etc/system.yaml && \
+            sed -i 's|\(\s*\)#haEnabled: .*|\1haEnabled: false|' $ARTIFACTORY_HOME/var/etc/system.yaml && \
+            sed -i 's|\(\s*\)## Example for postgresql|\1## Example for mysql|' $ARTIFACTORY_HOME/var/etc/system.yaml && \
+            sed -i 's|\(\s*\)#type: .*|\1type: mysql|' $ARTIFACTORY_HOME/var/etc/system.yaml && \
+            sed -i 's|\(\s*\)#driver: .*|\1driver: "com.mysql.jdbc.Driver"|' $ARTIFACTORY_HOME/var/etc/system.yaml && \
+            sed -i 's|\(\s*\)#url: .*|\1url: "jdbc:mysql://localhost:3306/'"$DB_NAME"'?characterEncoding=UTF-8\&elideSetAutoCommits=true\&useSSL=false\&serverTimezone=UTC"|' $ARTIFACTORY_HOME/var/etc/system.yaml && \
+            sed -i 's|\(\s*\)#username: .*|\1username: '"$DB_USER_NAME"'|' $ARTIFACTORY_HOME/var/etc/system.yaml && \
+            echo "  user: $RUN_USER" >> $ARTIFACTORY_HOME/var/etc/system.yaml && \
+            echo "  group: $RUN_GROUP" >> $ARTIFACTORY_HOME/var/etc/system.yaml && \
+            echo "artifactory:" >> $ARTIFACTORY_HOME/var/etc/system.yaml && \
+            echo "  port: $RUN_ARTIFACTORY_PORT" >> $ARTIFACTORY_HOME/var/etc/system.yaml && \
+            echo "  tomcat:" >> $ARTIFACTORY_HOME/var/etc/system.yaml && \
+            echo "    maintenanceConnector: $RUN_TOMCAT_MAINTENANCE_PORT" >> $ARTIFACTORY_HOME/var/etc/system.yaml && \
+            echo "    httpsConnector:" >> $ARTIFACTORY_HOME/var/etc/system.yaml && \
+            echo "      enabled: false" >> $ARTIFACTORY_HOME/var/etc/system.yaml && \
+            echo "access:" >> $ARTIFACTORY_HOME/var/etc/system.yaml && \
+            echo "  http:" >> $ARTIFACTORY_HOME/var/etc/system.yaml && \
+            echo "    port: $RUN_ACCESS_HTTP_PORT" >> $ARTIFACTORY_HOME/var/etc/system.yaml && \
+            echo "  grpc:" >> $ARTIFACTORY_HOME/var/etc/system.yaml && \
+            echo "    port: $RUN_ACCESS_GRPC_PORT" >> $ARTIFACTORY_HOME/var/etc/system.yaml && \
+            echo "frontend:" >> $ARTIFACTORY_HOME/var/etc/system.yaml && \
+            echo "  port: $RUN_FRONTEND_PORT" >> $ARTIFACTORY_HOME/var/etc/system.yaml && \
+            echo "metadata:" >> $ARTIFACTORY_HOME/var/etc/system.yaml && \
+            echo "  port: $RUN_METADATA_PORT" >> $ARTIFACTORY_HOME/var/etc/system.yaml && \
+            echo "router:" >> $ARTIFACTORY_HOME/var/etc/system.yaml && \
+            echo "  entrypoints:" >> $ARTIFACTORY_HOME/var/etc/system.yaml && \
+            echo "    internalPort: $RUN_ROUTER_INTERNAL_PORT" >> $ARTIFACTORY_HOME/var/etc/system.yaml && \
+            echo "    externalPort: $RUN_ROUTER_EXTERNAL_PORT" >> $ARTIFACTORY_HOME/var/etc/system.yaml && \
+            echo "    traefikApiPort: $RUN_ROUTER_TRAEFIC_PORT" >> $ARTIFACTORY_HOME/var/etc/system.yaml && \
+            echo "    grpcPort: $RUN_ROUTER_GRPC_PORT" >> $ARTIFACTORY_HOME/var/etc/system.yaml && \
+            echo "event:" >> $ARTIFACTORY_HOME/var/etc/system.yaml && \
+            echo "  port: $RUN_EVENT_PORT" >> $ARTIFACTORY_HOME/var/etc/system.yaml && \
+            chown -R -h $RUN_USER:$RUN_GROUP $JFROG_HOME
 
 # Configure helper scripts
 RUN         mv /tmp/startup /artifactory/scripts && \
@@ -137,6 +159,16 @@ RUN         mv /tmp/startup /artifactory/scripts && \
 
 USER        $RUN_USER
 
-EXPOSE      $RUN_PORT
+EXPOSE      $RUN_ARTIFACTORY_PORT \
+            $RUN_TOMCAT_MAINTENANCE_PORT \
+            $RUN_ACCESS_HTTP_PORT \
+            $RUN_ACCESS_GRPC_PORT \
+            $RUN_FRONTEND_PORT \
+            $RUN_METADATA_PORT \
+            $RUN_ROUTER_INTERNAL_PORT \
+            $RUN_ROUTER_EXTERNAL_PORT \
+            $RUN_ROUTER_TRAEFIC_PORT \
+            $RUN_ROUTER_GRPC_PORT \
+            $RUN_EVENT_PORT
 
 ENTRYPOINT  ["/artifactory/scripts/startup"]
