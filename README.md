@@ -51,12 +51,6 @@ To run container next volumes should be mapped:
     sudo mkdir /artifactory/data
     ```
     ```
-    sudo mkdir /artifactory/accessd
-    ```
-    ```
-    sudo mkdir /artifactory/accesse
-    ```
-    ```
     sudo mkdir /artifactory/security
     ```
 2. Create folder for logs:
