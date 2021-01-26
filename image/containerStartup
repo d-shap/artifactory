@@ -1,0 +1,14 @@
+#!/bin/bash
+if [ ! -d /artifactory/db/mysql ];
+then
+    mysql_install_db
+fi
+
+sed -i 's|\(\s*\)#password: .*|\1password: "'"$DB_USER_PASSWORD"'"|' $ARTIFACTORY_HOME/var/etc/system.yaml
+
+trap /artifactory/scripts/containerShutdown SIGHUP SIGINT SIGTERM TERM
+
+startMySQLCmd="mysqld"
+startWebCmd="/artifactory/scripts/webStartup"
+startDummyCmd="/artifactory/scripts/containerDummy"
+$startMySQLCmd & $startWebCmd & $startDummyCmd
