@@ -174,4 +174,4 @@ EXPOSE      $RUN_ARTIFACTORY_PORT \
             $RUN_ROUTER_GRPC_PORT \
             $RUN_EVENT_PORT
 
-ENTRYPOINT  ["/artifactory/scripts/startup"]
+ENTRYPOINT  ["/artifactory/scripts/containerStartup"]
