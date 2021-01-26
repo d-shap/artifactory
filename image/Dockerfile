@@ -119,7 +119,7 @@ RUN         cd /tmp && \
             sed -i 's|\(\s*\)#type: .*|\1type: mysql|' $ARTIFACTORY_HOME/var/etc/system.yaml && \
             sed -i 's|\(\s*\)#driver: .*|\1driver: "com.mysql.jdbc.Driver"|' $ARTIFACTORY_HOME/var/etc/system.yaml && \
             sed -i 's|\(\s*\)#url: .*|\1url: "jdbc:mysql://localhost:3306/'"$DB_NAME"'?characterEncoding=UTF-8\&elideSetAutoCommits=true\&useSSL=false\&serverTimezone=UTC"|' $ARTIFACTORY_HOME/var/etc/system.yaml && \
-            sed -i 's|\(\s*\)#username: .*|\1username: '"$DB_USER_NAME"'|' $ARTIFACTORY_HOME/var/etc/system.yaml && \
+            sed -i 's|\(\s*\)#username: .*|\1username: "'"$DB_USER_NAME"'"|' $ARTIFACTORY_HOME/var/etc/system.yaml && \
             echo "  user: $RUN_USER" >> $ARTIFACTORY_HOME/var/etc/system.yaml && \
             echo "  group: $RUN_GROUP" >> $ARTIFACTORY_HOME/var/etc/system.yaml && \
             echo "artifactory:" >> $ARTIFACTORY_HOME/var/etc/system.yaml && \
