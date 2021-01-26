@@ -148,13 +148,16 @@ RUN         cd /tmp && \
             chown -R -h $RUN_USER:$RUN_GROUP $JFROG_HOME
 
 # Configure helper scripts
-RUN         mv /tmp/startup /artifactory/scripts && \
-            mv /tmp/shutdown /artifactory/scripts && \
-            mv /tmp/initialize /artifactory/scripts && \
-            mv /tmp/changeRootPassword /artifactory/scripts && \
-            mv /tmp/changeUserPassword /artifactory/scripts && \
-            mv /tmp/backup /artifactory/scripts && \
-            mv /tmp/restore /artifactory/scripts && \
+RUN         mv /tmp/containerDummy /artifactory/scripts && \
+            mv /tmp/containerStartup /artifactory/scripts && \
+            mv /tmp/containerShutdown /artifactory/scripts && \
+            mv /tmp/webStartup /artifactory/scripts && \
+            mv /tmp/webShutdown /artifactory/scripts && \
+            mv /tmp/utilInitialize /artifactory/scripts && \
+            mv /tmp/utilChangeRootPassword /artifactory/scripts && \
+            mv /tmp/utilChangeUserPassword /artifactory/scripts && \
+            mv /tmp/utilBackup /artifactory/scripts && \
+            mv /tmp/utilRestore /artifactory/scripts && \
             chmod 755 /artifactory/scripts/*
 
 USER        $RUN_USER
