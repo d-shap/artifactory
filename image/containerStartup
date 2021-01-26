@@ -8,7 +8,6 @@ sed -i 's|\(\s*\)#password: .*|\1password: "'"$DB_USER_PASSWORD"'"|' $ARTIFACTOR
 
 trap /artifactory/scripts/containerShutdown SIGHUP SIGINT SIGTERM TERM
 
-startMySQLCmd="mysqld"
-startWebCmd="/artifactory/scripts/webStartup"
-startDummyCmd="/artifactory/scripts/containerDummy"
-$startMySQLCmd & $startWebCmd & $startDummyCmd
+mysqld &
+/artifactory/scripts/webStartup &
+/artifactory/scripts/containerDummy
