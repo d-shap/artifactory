@@ -1,0 +1,2 @@
+#!/bin/bash
+$ARTIFACTORY_HOME/app/bin/artifactoryctl start
