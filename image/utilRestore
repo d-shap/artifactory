@@ -7,11 +7,15 @@ then
 
     if [ -e "$FILE" ];
     then
+        /artifactory/scripts/webShutdown
+
         cd /artifactory
         tar -xzf $FILE $DUMP data security
 
         mysql --user="$DB_USER_NAME" --password="$DB_USER_PASSWORD" "$DB_NAME" < $DUMPFILE
 
         rm $DUMPFILE
+
+        /artifactory/scripts/webStartup &
     fi
 fi
