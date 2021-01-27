@@ -7,7 +7,7 @@ This user owns artifactory process and owns artifactory files.
 To run container next volumes should be mapped:
 * folder for SQL database
 * folder for artifactory files
-* folders for security and access files
+* folders for security files
 * logs folder
 * backups folder
 
