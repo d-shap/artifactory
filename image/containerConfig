@@ -1,0 +1,8 @@
+#!/bin/bash
+startDbCmd="mysqld"
+stopDbCmd="mysqladmin --user=root --password="$DB_ROOT_PASSWORD" shutdown"
+startWebCmd="/artifactory/scripts/webStartup"
+stopWebCmd="/artifactory/scripts/webShutdown"
+startDummyCmd="/artifactory/scripts/containerDummy"
+waitDummyCmd="ps axf | grep containerDummy | grep -v grep | awk '{print \"wait \" \$1}' | sh"
+stopDummyCmd="ps axf | grep containerDummy | grep -v grep | awk '{print \"kill -9 \" \$1}' | sh"
