@@ -12,7 +12,7 @@ then
 
     cd /artifactory
     tar -czf $TEMPTILE $DUMP data security
-    rm $FILE
+    rm -rf $FILE
     mv $TEMPTILE $FILE
 
     rm $DUMPFILE
