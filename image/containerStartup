@@ -6,7 +6,7 @@ fi
 
 sed -i 's|\(\s*\)#password: .*|\1password: "'"$DB_USER_PASSWORD"'"|' $ARTIFACTORY_HOME/var/etc/system.yaml
 
-trap /artifactory/scripts/containerShutdown SIGHUP SIGINT SIGTERM TERM
+trap /artifactory/scripts/containerShutdown HUP SIGHUP INT SIGINT QUIT SIGQUIT TERM SIGTERM
 
 startDbCmd="mysqld"
 startWebCmd="/artifactory/scripts/webStartup"
