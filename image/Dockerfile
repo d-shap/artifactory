@@ -122,6 +122,9 @@ RUN         cd /tmp && \
             sed -i 's|\(\s*\)#username: .*|\1username: "'"$DB_USER_NAME"'"|' $ARTIFACTORY_HOME/var/etc/system.yaml && \
             echo "  user: $RUN_USER" >> $ARTIFACTORY_HOME/var/etc/system.yaml && \
             echo "  group: $RUN_GROUP" >> $ARTIFACTORY_HOME/var/etc/system.yaml && \
+            echo "  logging:" >> $ARTIFACTORY_HOME/var/etc/system.yaml && \
+            echo "    consoleLog:" >> $ARTIFACTORY_HOME/var/etc/system.yaml && \
+            echo "      enabled: false" >> $ARTIFACTORY_HOME/var/etc/system.yaml && \
             echo "artifactory:" >> $ARTIFACTORY_HOME/var/etc/system.yaml && \
             echo "  port: $RUN_ARTIFACTORY_PORT" >> $ARTIFACTORY_HOME/var/etc/system.yaml && \
             echo "  tomcat:" >> $ARTIFACTORY_HOME/var/etc/system.yaml && \
