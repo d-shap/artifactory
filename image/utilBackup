@@ -6,8 +6,10 @@ then
     DUMPFILE="/artifactory/$DUMP"
     TEMPTILE="/artifactory/backups/tmp_$1.tar.gz"
     FILE="/artifactory/backups/$1.tar.gz"
+    startWebCmd="/artifactory/scripts/webStartup"
+    stopWebCmd="/artifactory/scripts/webShutdown"
 
-    /artifactory/scripts/webShutdown
+    $stopWebCmd
 
     mysqldump --max-allowed-packet=100M --user="$DB_USER_NAME" --password="$DB_USER_PASSWORD" "$DB_NAME" > $TEMPDUMPFILE
     mv $TEMPDUMPFILE $DUMPFILE
@@ -19,5 +21,5 @@ then
 
     rm $DUMPFILE
 
-    /artifactory/scripts/webStartup &
+    $startWebCmd &
 fi

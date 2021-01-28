@@ -4,10 +4,12 @@ then
     DUMP="$DB_NAME.dump"
     DUMPFILE="/artifactory/$DUMP"
     FILE="/artifactory/backups/$1.tar.gz"
+    startWebCmd="/artifactory/scripts/webStartup"
+    stopWebCmd="/artifactory/scripts/webShutdown"
 
     if [ -e "$FILE" ];
     then
-        /artifactory/scripts/webShutdown
+        $stopWebCmd
 
         cd /artifactory
         tar -xzf $FILE $DUMP data security
@@ -16,6 +18,6 @@ then
 
         rm $DUMPFILE
 
-        /artifactory/scripts/webStartup &
+        $startWebCmd &
     fi
 fi
