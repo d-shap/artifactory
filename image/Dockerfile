@@ -151,7 +151,8 @@ RUN         cd /tmp && \
             chown -R -h $RUN_USER:$RUN_GROUP $JFROG_HOME
 
 # Configure helper scripts
-RUN         mv /tmp/containerDummy /artifactory/scripts && \
+RUN         mv /tmp/containerConfig /artifactory/scripts && \
+            mv /tmp/containerDummy /artifactory/scripts && \
             mv /tmp/containerStartup /artifactory/scripts && \
             mv /tmp/containerShutdown /artifactory/scripts && \
             mv /tmp/webStartup /artifactory/scripts && \
