@@ -4,16 +4,16 @@ then
     DUMP="$DB_NAME.dump"
     TEMPDUMPFILE="/artifactory/tmp_$DUMP"
     DUMPFILE="/artifactory/$DUMP"
-    TEMPTILE="/artifactory/backups/tmp_$1.tar.gz"
+    TEMPFILE="/artifactory/backups/tmp_$1.tar.gz"
     FILE="/artifactory/backups/$1.tar.gz"
 
     mysqldump --max-allowed-packet=100M --user="$DB_USER_NAME" --password="$DB_USER_PASSWORD" "$DB_NAME" > $TEMPDUMPFILE
     mv $TEMPDUMPFILE $DUMPFILE
 
     cd /artifactory
-    tar -czf $TEMPTILE $DUMP data security
+    tar -czf $TEMPFILE $DUMP data security
     rm -rf $FILE
-    mv $TEMPTILE $FILE
+    mv $TEMPFILE $FILE
 
     rm $DUMPFILE
 fi
