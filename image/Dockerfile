@@ -22,9 +22,9 @@ ENV         DEBIAN_FRONTEND=noninteractive \
             ARTIFACTORY_HOME=/jfrog/artifactory \
             DB_NAME=artdb \
             DB_USER_NAME=artifactory \
-            ARTIFACTORY_DOWNLOAD_URL="https://bintray.com/jfrog/artifactory/download_file?file_path=org/artifactory/oss/jfrog-artifactory-oss/7.12.6/jfrog-artifactory-oss-7.12.6-linux.tar.gz" \
-            ARTIFACTORY_DOWNLOAD_NAME="artifactory-oss-7.12.6.tar.gz" \
-            ARTIFACTORY_FOLDER_NAME="artifactory-oss-7.12.6" \
+            ARTIFACTORY_DOWNLOAD_URL="https://releases.jfrog.io/artifactory/bintray-artifactory/org/artifactory/oss/jfrog-artifactory-oss/7.19.8/jfrog-artifactory-oss-7.19.8-linux.tar.gz" \
+            ARTIFACTORY_DOWNLOAD_NAME="artifactory-oss-7.19.8.tar.gz" \
+            ARTIFACTORY_FOLDER_NAME="artifactory-oss-7.19.8" \
             JDBC_DOWNLOAD_URL="https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-8.0.22.tar.gz" \
             JDBC_DOWNLOAD_NAME="mysql-connector-java-8.0.22.tar.gz" \
             JDBC_FOLDER_NAME="mysql-connector-java-8.0.22" \
