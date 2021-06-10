@@ -39,6 +39,7 @@ RUN         echo "deb http://ftp.debian.org/debian buster-backports main" >> /et
                 apt-utils \
                 build-essential \
                 cron \
+                curl \
                 net-tools \
                 procps \
                 software-properties-common \
