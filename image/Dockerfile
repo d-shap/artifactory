@@ -32,6 +32,16 @@ ENV         DEBIAN_FRONTEND=noninteractive \
 
 COPY        . /tmp
 
+# Install GPG and keys
+RUN         apt-get update && \
+            apt-get upgrade --assume-yes && \
+            apt-get install --assume-yes \
+                gnupg && \
+            apt-get clean && \
+            gpg --keyserver pgp.mit.edu --recv-keys 7638D0442B90D010 8B48AD6246925553 && \
+            gpg --armor --export 7638D0442B90D010 | apt-key add - && \
+            gpg --armor --export 8B48AD6246925553 | apt-key add -
+
 # Install common packages and configure environment
 RUN         echo "deb http://ftp.debian.org/debian buster-backports main" >> /etc/apt/sources.list.d/backports.list && \
             apt-get update && \
