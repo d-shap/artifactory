@@ -225,6 +225,3 @@ docker run ... -e DB_USER_PASSWORD="pas\$11" ...
 ```
 sudo crontab -l | { cat; echo "minute hour * * * /usr/bin/artutil backup <filename>"; echo ""; } | sudo crontab -
 ```
-
-# Donation
-If you find my code useful, you can [bye me a coffee](https://www.paypal.me/dshapovalov)
